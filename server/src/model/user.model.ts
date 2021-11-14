@@ -7,6 +7,7 @@ export interface UserDocument extends mongoose.Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  requests: UserDocument[];
 }
 
 const UserSchema = new mongoose.Schema(
@@ -15,6 +16,12 @@ const UserSchema = new mongoose.Schema(
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     password: { type: String, required: true },
+    requests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   { timestamps: true, versionKey: false },
 );

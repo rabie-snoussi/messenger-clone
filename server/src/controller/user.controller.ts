@@ -72,11 +72,8 @@ export const getUserFromTokenHandler = async (req: Request, res: Response) => {
 
 export const updateUserHandler = async (req: Request, res: Response) => {
   try {
-    const loggedUserId = get(req, 'user._id');
     const userId = get(req, 'params.userId');
     const update = req.body;
-
-    if (String(loggedUserId) !== String(userId)) return res.sendStatus(403);
 
     const updatedUser = await updateUser({ _id: userId }, update, {
       new: true,
@@ -95,10 +92,7 @@ export const deleteUserHandler = async (
   next: NextFunction,
 ) => {
   try {
-    const loggedUserId = get(req, 'user._id');
     const userId = get(req, 'params.userId');
-
-    if (String(loggedUserId) !== String(userId)) return res.sendStatus(403);
 
     await deleteUser({ _id: userId });
 
