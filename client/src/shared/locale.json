@@ -1,0 +1,23 @@
+{
+  "signIn": "Sign In",
+  "noAccountSignUp": "Don't have an account yet ? Sign up !",
+  "email": "Email",
+  "password": "Password",
+  "passwordConfirmation": "Password Confirmation",
+  "firstname": "First name",
+  "lastname": "Last name",
+  "signUp": "Sign Up",
+  "pendingRequest": "Pending request",
+  "welcome": "Welcome",
+  "creationSuccess": "Creation success",
+  "profile": "Profile",
+  "signOut": "Sign Out",
+  "home": "Home",
+  "update": "Update",
+  "delete": "Delete",
+  "userUpdateSuccess": "The user has been successfully updated",
+  "userDeletionSuccess": "The user has been successfully deleted",
+  "hasAccount": "Already have an account ? Sign In !",
+  "connectPeople": "Connect with your favourite people",
+  "continue": "Continue"
+}
