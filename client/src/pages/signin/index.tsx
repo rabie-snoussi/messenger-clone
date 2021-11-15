@@ -103,7 +103,7 @@ const Signin: React.FC<SigninProps> = ({ history, login, user }) => {
             </Box>
 
             <Box sx={{ padding: '10px 0' }}>
-              <Link href={PATHS.SIGNUP}>{locale.noAccountSignUp}</Link>
+              <Link variant="caption" href={PATHS.SIGNUP}>{locale.noAccountSignUp}</Link>
             </Box>
 
             <Box

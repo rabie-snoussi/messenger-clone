@@ -128,6 +128,7 @@ const Signup: React.FC<SignUpProps> = ({ createUser, history, user }) => {
 
             <Box sx={{ padding: '10px 5px' }}>
               <Link
+                variant="caption"
                 sx={{ color: '#F44E90', textDecorationColor: '#F44E90' }}
                 href={PATHS.SIGNIN}
               >
