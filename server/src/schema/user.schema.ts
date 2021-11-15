@@ -49,3 +49,9 @@ export const updateUserSchema = object({
     ),
   }),
 });
+
+export const friendRequestSchema = object({
+  body: object({
+    userId: string().required('UserId is required'),
+  }),
+});

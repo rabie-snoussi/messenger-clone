@@ -45,7 +45,11 @@ export const updateUser = async (
 };
 
 export const findUser = async (query: FilterQuery<UserDocument>) =>
-  User.findOne(query).lean();
+  User.findOne(query)
+    .lean()
+    .populate('friends', '-password')
+    .populate('requests.sent', '-password')
+    .populate('requests.received', '-password');
 
 export const validatePassword = async ({
   email,

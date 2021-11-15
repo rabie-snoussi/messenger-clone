@@ -7,11 +7,21 @@ import {
   getUserHandler,
   updateUserHandler,
   deleteUserHandler,
+  sendFriendRequestHandler,
+  getSentRequestsHandler,
+  getReceivedRequestsHandler,
+  deleteReceivedReqsHandler,
+  deleteSentReqsHandler,
+  acceptRequestHandler,
 } from './controller/user.controller';
 import { signInHandler, signOutHandler } from './controller/session.controller';
 import { validateRequest } from './middleware';
 import { userAuthenticated, isOwner } from './middleware/userAuthenticated';
-import { createUserSchema, updateUserSchema } from './schema/user.schema';
+import {
+  createUserSchema,
+  updateUserSchema,
+  friendRequestSchema,
+} from './schema/user.schema';
 import { createSessionSchema } from './schema/session.schema';
 
 export default function (app: Express) {
@@ -52,4 +62,42 @@ export default function (app: Express) {
 
   // Logout
   app.delete('/api/auth', userAuthenticated(), signOutHandler);
+
+  // Add a friend request
+  app.patch(
+    '/api/requests',
+    [userAuthenticated(), validateRequest(friendRequestSchema)],
+    sendFriendRequestHandler,
+  );
+
+  // List sent requests
+  app.get('/api/requests/sent', userAuthenticated(), getSentRequestsHandler);
+
+  // List received requests
+  app.get(
+    '/api/requests/received',
+    userAuthenticated(),
+    getReceivedRequestsHandler,
+  );
+
+  // Delete sent request
+  app.delete(
+    '/api/requests/sent/:userId',
+    userAuthenticated(),
+    deleteSentReqsHandler,
+  );
+
+  // Delete received request
+  app.delete(
+    '/api/requests/received/:userId',
+    userAuthenticated(),
+    deleteReceivedReqsHandler,
+  );
+
+  // Accept request
+  app.patch(
+    '/api/requests/accept/:userId',
+    userAuthenticated(),
+    acceptRequestHandler,
+  );
 }

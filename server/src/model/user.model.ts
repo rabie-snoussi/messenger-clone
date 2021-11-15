@@ -7,7 +7,8 @@ export interface UserDocument extends mongoose.Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
-  requests: UserDocument[];
+  requests: { sent: UserDocument[]; received: UserDocument[] };
+  friends: UserDocument[];
 }
 
 const UserSchema = new mongoose.Schema(
@@ -16,12 +17,29 @@ const UserSchema = new mongoose.Schema(
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     password: { type: String, required: true },
-    requests: [
+    friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        default: [],
       },
     ],
+    requests: {
+      sent: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          default: [],
+        },
+      ],
+      received: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'User',
+          default: [],
+        },
+      ],
+    },
   },
   { timestamps: true, versionKey: false },
 );
