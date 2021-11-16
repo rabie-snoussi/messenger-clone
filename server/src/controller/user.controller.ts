@@ -2,7 +2,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { LeanDocument } from 'mongoose';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
 import {
   createUser,
@@ -10,6 +9,7 @@ import {
   findUser,
   deleteUser,
   updateUser,
+  findUserAndPopulate,
 } from '../service/user.service';
 import { UserDocument } from '../model/user.model';
 import {
@@ -158,7 +158,7 @@ export const sendFriendRequestHandler = async (req: Request, res: Response) => {
 export const getSentRequestsHandler = async (req: Request, res: Response) => {
   try {
     const userId = get(req, 'user._id');
-    const user = await findUser({ _id: userId });
+    const user = await findUserAndPopulate({ _id: userId });
 
     if (!user) return res.sendStatus(404);
 
@@ -175,7 +175,7 @@ export const getReceivedRequestsHandler = async (
 ) => {
   try {
     const userId = get(req, 'user._id');
-    const user = await findUser({ _id: userId });
+    const user = await findUserAndPopulate({ _id: userId });
 
     if (!user) return res.sendStatus(404);
 
@@ -311,7 +311,7 @@ export const acceptRequestHandler = async (req: Request, res: Response) => {
 export const getFriendsHandler = async (req: Request, res: Response) => {
   try {
     const userId = get(req, 'user._id');
-    const user = await findUser({ _id: userId });
+    const user = await findUserAndPopulate({ _id: userId });
 
     if (!user) return res.sendStatus(404);
 
