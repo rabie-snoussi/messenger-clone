@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
+import isEmpty from 'lodash/isEmpty';
 
 export interface UserDocument extends mongoose.Document {
   email: string;
@@ -7,8 +9,8 @@ export interface UserDocument extends mongoose.Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
-  requests: { sent: UserDocument[]; received: UserDocument[] };
-  friends: UserDocument[];
+  requests: { sent: string[]; received: string[] };
+  friends: string[];
 }
 
 const UserSchema = new mongoose.Schema(

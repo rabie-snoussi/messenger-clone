@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NextFunction, Request, Response } from 'express';
 import { LeanDocument } from 'mongoose';
 import get from 'lodash/get';
@@ -11,7 +12,17 @@ import {
   updateUser,
 } from '../service/user.service';
 import { UserDocument } from '../model/user.model';
-import { filterRequests } from './helper';
+import {
+  addSentRequest,
+  addReceivedRequest,
+  hasSentRequest,
+  hasReceivedRequest,
+  removeSentRequest,
+  removeReceivedRequest,
+  hasFriend,
+  addFriend,
+  removeFriend,
+} from './helper';
 import log from '../logger';
 
 export const createUserHandler = async (
@@ -107,71 +118,34 @@ export const deleteUserHandler = async (
 
 export const sendFriendRequestHandler = async (req: Request, res: Response) => {
   try {
-    const senderId = get(req, 'user._id');
+    const senderId = String(get(req, 'user._id'));
     const receiverId = get(req, 'body.userId');
 
-    if (String(senderId) === receiverId) return res.sendStatus(403);
+    if (senderId === receiverId) return res.sendStatus(403);
 
     const receiver = await findUser({ _id: receiverId });
-
-    if (!receiver) return res.sendStatus(404);
-
-    const receiverRequests = get(receiver, 'requests', {
-      sent: [],
-      received: [],
-    });
-
-    if (!isEmpty(filterRequests(receiverRequests.received, senderId))) {
-      return res.sendStatus(403);
-    }
-
-    if (!isEmpty(filterRequests(receiverRequests.sent, senderId))) {
-      return res.sendStatus(403);
-    }
-
     const sender = await findUser({ _id: senderId });
-    const senderRequests = get(sender, 'requests', { sent: [], received: [] });
 
-    if (!isEmpty(filterRequests(senderRequests.sent, receiverId))) {
+    if (!receiver || !sender) return res.sendStatus(404);
+
+    if (
+      hasSentRequest(sender, receiverId) ||
+      hasReceivedRequest(receiver, senderId) ||
+      hasFriend(receiver, senderId)
+    )
       return res.sendStatus(403);
-    }
 
-    if (!isEmpty(filterRequests(senderRequests.received, receiverId))) {
-      return res.sendStatus(403);
-    }
+    const newSender = addSentRequest(sender, receiverId);
+    const newReceiver = addReceivedRequest(receiver, senderId);
 
-    const receiverFriends = get(receiver, 'friends', []);
-
-    if (!isEmpty(filterRequests(receiverFriends, senderId))) {
-      return res.sendStatus(403);
-    }
-
-    const senderFriends = get(sender, 'friends', []);
-
-    if (!isEmpty(filterRequests(senderFriends, receiverId))) {
-      return res.sendStatus(403);
-    }
-
-    await updateUser(
-      { _id: receiverId },
-      {
-        requests: {
-          ...receiverRequests,
-          received: [...receiverRequests.received, senderId],
-        },
-      },
-      {},
-    );
+    await updateUser({ _id: receiverId }, omit(newReceiver, 'password'), {});
 
     const updatedUser = await updateUser(
       { _id: senderId },
+      omit(newSender, 'password'),
       {
-        requests: {
-          ...senderRequests,
-          sent: [...senderRequests.sent, receiverId],
-        },
+        new: true,
       },
-      { new: true },
     );
 
     return res.send(omit(updatedUser, 'password'));
@@ -185,9 +159,10 @@ export const getSentRequestsHandler = async (req: Request, res: Response) => {
   try {
     const userId = get(req, 'user._id');
     const user = await findUser({ _id: userId });
-    const sentRequests: UserDocument[] = get(user, 'requests.sent', []);
 
-    return res.send(sentRequests);
+    if (!user) return res.sendStatus(404);
+
+    return res.send(user.requests.sent);
   } catch (e: any) {
     log.error(e);
     return res.status(409).send(e.message);
@@ -201,63 +176,48 @@ export const getReceivedRequestsHandler = async (
   try {
     const userId = get(req, 'user._id');
     const user = await findUser({ _id: userId });
-    const receivedRequests: UserDocument[] = get(user, 'requests.received', []);
 
-    return res.send(receivedRequests);
+    if (!user) return res.sendStatus(404);
+
+    return res.send(user.requests.received);
   } catch (e: any) {
     log.error(e);
     return res.status(409).send(e.message);
   }
 };
 
-export const deleteReceivedReqsHandler = async (
+export const deleteReceivedRequestHandler = async (
   req: Request,
   res: Response,
 ) => {
   try {
-    const receiverId = get(req, 'user._id');
+    const receiverId = String(get(req, 'user._id'));
     const senderId = get(req, 'params.userId');
 
+    if (senderId === receiverId) return res.sendStatus(403);
+
     const receiver = await findUser({ _id: receiverId });
-    const receiverRequests = get(receiver, 'requests', {
-      sent: [],
-      received: [],
-    });
-
-    const receivedRequests = receiverRequests.received.filter(
-      (user) => String(user._id) !== senderId,
-    );
-
     const sender = await findUser({ _id: senderId });
 
-    if (!isEmpty(sender)) {
-      const senderRequests = get(sender, 'requests', {
-        sent: [],
-        received: [],
-      });
+    if (!receiver || !sender) return res.sendStatus(404);
 
-      const sentRequests = senderRequests.sent.filter(
-        (user) => String(user._id) !== String(receiverId),
-      );
+    if (
+      !hasSentRequest(sender, receiverId) ||
+      !hasReceivedRequest(receiver, senderId)
+    )
+      return res.sendStatus(403);
 
-      await updateUser(
-        { _id: senderId },
-        {
-          requests: {
-            ...senderRequests,
-            sent: sentRequests,
-          },
-        },
-        {},
-      );
-    }
+    const newSender = removeSentRequest(sender, receiverId);
+    const newReceiver = removeReceivedRequest(receiver, senderId);
+
+    await updateUser({ _id: senderId }, omit(newSender, 'password'), {});
 
     const updatedUser = await updateUser(
       { _id: receiverId },
+      omit(newReceiver, 'password'),
       {
-        requests: { ...receiverRequests, received: receivedRequests },
+        new: true,
       },
-      { new: true },
     );
 
     return res.send(omit(updatedUser, 'password'));
@@ -267,51 +227,35 @@ export const deleteReceivedReqsHandler = async (
   }
 };
 
-export const deleteSentReqsHandler = async (req: Request, res: Response) => {
+export const deleteSentRequestHandler = async (req: Request, res: Response) => {
   try {
-    const senderId = get(req, 'user._id');
+    const senderId = String(get(req, 'user._id'));
     const receiverId = get(req, 'params.userId');
 
-    const sender = await findUser({ _id: senderId });
-    const senderRequests = get(sender, 'requests', {
-      sent: [],
-      received: [],
-    });
-
-    const sentRequests = senderRequests.sent.filter(
-      (user) => String(user._id) !== receiverId,
-    );
+    if (senderId === receiverId) return res.sendStatus(403);
 
     const receiver = await findUser({ _id: receiverId });
+    const sender = await findUser({ _id: senderId });
 
-    if (!isEmpty(receiver)) {
-      const receiverRequests = get(receiver, 'requests', {
-        sent: [],
-        received: [],
-      });
+    if (!receiver || !sender) return res.sendStatus(404);
 
-      const receivedRequests = receiverRequests.received.filter(
-        (user) => String(user._id) !== String(senderId),
-      );
+    if (
+      !hasSentRequest(sender, receiverId) ||
+      !hasReceivedRequest(receiver, senderId)
+    )
+      return res.sendStatus(403);
 
-      await updateUser(
-        { _id: receiverId },
-        {
-          requests: {
-            ...receiverRequests,
-            received: receivedRequests,
-          },
-        },
-        {},
-      );
-    }
+    const newSender = removeSentRequest(sender, receiverId);
+    const newReceiver = removeReceivedRequest(receiver, senderId);
+
+    await updateUser({ _id: receiverId }, omit(newReceiver, 'password'), {});
 
     const updatedUser = await updateUser(
       { _id: senderId },
+      omit(newSender, 'password'),
       {
-        requests: { ...senderRequests, sent: sentRequests },
+        new: true,
       },
-      { new: true },
     );
 
     return res.send(omit(updatedUser, 'password'));
@@ -323,69 +267,87 @@ export const deleteSentReqsHandler = async (req: Request, res: Response) => {
 
 export const acceptRequestHandler = async (req: Request, res: Response) => {
   try {
-    const receiverId = get(req, 'user._id');
+    const receiverId = String(get(req, 'user._id'));
     const senderId = get(req, 'params.userId');
 
-    if (String(senderId) === String(receiverId)) return res.sendStatus(403);
+    if (senderId === receiverId) return res.sendStatus(403);
 
     const receiver = await findUser({ _id: receiverId });
-    const receiverRequests = get(receiver, 'requests', {
-      sent: [],
-      received: [],
-    });
-
-    if (isEmpty(filterRequests(receiverRequests.received, senderId))) {
-      return res.sendStatus(403);
-    }
-
     const sender = await findUser({ _id: senderId });
 
-    if (isEmpty(sender)) return res.sendStatus(403);
+    if (!receiver || !sender) return res.sendStatus(404);
 
-    const receiverFriends = get(receiver, 'friends', []);
-
-    if (!isEmpty(filterRequests(receiverFriends, senderId))) {
+    if (
+      !hasSentRequest(sender, receiverId) ||
+      !hasReceivedRequest(receiver, senderId) ||
+      hasFriend(receiver, senderId)
+    )
       return res.sendStatus(403);
-    }
 
-    const senderFriends = get(sender, 'friends', []);
-
-    if (!isEmpty(filterRequests(senderFriends, receiverId))) {
-      return res.sendStatus(403);
-    }
-
-    const senderRequests = get(sender, 'requests', {
-      sent: [],
-      received: [],
-    });
-
-    const sentRequests = senderRequests.sent.filter(
-      (user) => String(user._id) !== String(receiverId),
+    const newSender = addFriend(
+      removeSentRequest(sender, receiverId),
+      receiverId,
+    );
+    const newReceiver = addFriend(
+      removeReceivedRequest(receiver, senderId),
+      senderId,
     );
 
-    await updateUser(
-      { _id: senderId },
-      {
-        requests: {
-          ...senderRequests,
-          sent: sentRequests,
-        },
-        friends: [...senderFriends, receiverId],
-      },
-      {},
-    );
-
-    const receivedRequests = receiverRequests.received.filter(
-      (user) => String(user._id) !== String(senderId),
-    );
+    await updateUser({ _id: senderId }, omit(newSender, 'password'), {});
 
     const updatedUser = await updateUser(
       { _id: receiverId },
-      {
-        requests: { ...receiverRequests, received: receivedRequests },
-        friends: [...receiverFriends, senderId],
-      },
+      omit(newReceiver, 'password'),
       { new: true },
+    );
+
+    return res.send(omit(updatedUser, 'password'));
+  } catch (e: any) {
+    log.error(e);
+    return res.status(409).send(e.message);
+  }
+};
+
+export const getFriendsHandler = async (req: Request, res: Response) => {
+  try {
+    const userId = get(req, 'user._id');
+    const user = await findUser({ _id: userId });
+
+    if (!user) return res.sendStatus(404);
+
+    return res.send(user.friends);
+  } catch (e: any) {
+    log.error(e);
+    return res.status(409).send(e.message);
+  }
+};
+
+export const deleteFriendHandler = async (req: Request, res: Response) => {
+  try {
+    const userId = String(get(req, 'user._id'));
+    const friendId = get(req, 'params.friendId');
+
+    if (friendId === userId) return res.sendStatus(403);
+
+    const user = await findUser({ _id: userId });
+    const friend = await findUser({ _id: friendId });
+
+    if (!user || !friend) return res.sendStatus(404);
+
+    if (!hasFriend(friend, userId) || !hasFriend(user, friendId))
+      return res.sendStatus(403);
+
+    const newFriend = removeFriend(friend, userId);
+    const newUser = removeFriend(user, friendId);
+
+    await updateUser({ _id: friendId }, omit(newFriend, 'password'), {});
+
+    const updatedUser = await updateUser(
+      { _id: userId },
+      omit(newUser, 'password'),
+      {
+        new: true,
+      },
     );
 
     return res.send(omit(updatedUser, 'password'));

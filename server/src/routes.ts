@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Express } from 'express';
 
 import {
@@ -10,9 +11,11 @@ import {
   sendFriendRequestHandler,
   getSentRequestsHandler,
   getReceivedRequestsHandler,
-  deleteReceivedReqsHandler,
-  deleteSentReqsHandler,
+  deleteSentRequestHandler,
+  deleteReceivedRequestHandler,
   acceptRequestHandler,
+  getFriendsHandler,
+  deleteFriendHandler,
 } from './controller/user.controller';
 import { signInHandler, signOutHandler } from './controller/session.controller';
 import { validateRequest } from './middleware';
@@ -33,7 +36,7 @@ export default function (app: Express) {
     signInHandler,
   );
 
-  // List users
+  // Get users
   app.get('/api/users', userAuthenticated(), getUsersHandler);
 
   // Get a user
@@ -70,10 +73,10 @@ export default function (app: Express) {
     sendFriendRequestHandler,
   );
 
-  // List sent requests
+  // Get sent requests
   app.get('/api/requests/sent', userAuthenticated(), getSentRequestsHandler);
 
-  // List received requests
+  // Get received requests
   app.get(
     '/api/requests/received',
     userAuthenticated(),
@@ -84,14 +87,14 @@ export default function (app: Express) {
   app.delete(
     '/api/requests/sent/:userId',
     userAuthenticated(),
-    deleteSentReqsHandler,
+    deleteSentRequestHandler,
   );
 
   // Delete received request
   app.delete(
     '/api/requests/received/:userId',
     userAuthenticated(),
-    deleteReceivedReqsHandler,
+    deleteReceivedRequestHandler,
   );
 
   // Accept request
@@ -99,5 +102,15 @@ export default function (app: Express) {
     '/api/requests/accept/:userId',
     userAuthenticated(),
     acceptRequestHandler,
+  );
+
+  // Get friends list
+  app.get('/api/friends', userAuthenticated(), getFriendsHandler);
+
+  // Delete friend
+  app.delete(
+    '/api/friends/:friendId',
+    userAuthenticated(),
+    deleteFriendHandler,
   );
 }
