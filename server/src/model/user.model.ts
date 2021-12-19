@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
-import isEmpty from 'lodash/isEmpty';
 
 export interface UserDocument extends mongoose.Document {
   email: string;

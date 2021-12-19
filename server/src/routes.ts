@@ -26,6 +26,12 @@ import {
   friendRequestSchema,
 } from './schema/user.schema';
 import { createSessionSchema } from './schema/session.schema';
+import {
+  createConversationHandler,
+  getConversationHandler,
+  getConversationsHandler,
+} from './controller/conversation.controller';
+import { createConversationSchema } from './schema/conversation.schema';
 
 export default function (app: Express) {
   // Add a user
@@ -36,14 +42,8 @@ export default function (app: Express) {
     signInHandler,
   );
 
-  // Get users
-  app.get('/api/users', userAuthenticated(), getUsersHandler);
-
   // Get a user
   app.get('/api/users/:userId', userAuthenticated(), getUserHandler);
-
-  // Get user from token
-  app.get('/api/user', userAuthenticated(), getUserFromTokenHandler);
 
   // Update a user
   app.patch(
@@ -59,6 +59,12 @@ export default function (app: Express) {
     deleteUserHandler,
     signOutHandler,
   );
+
+  // Get users
+  app.get('/api/users', userAuthenticated(), getUsersHandler);
+
+  // Get user from token
+  app.get('/api/user', userAuthenticated(), getUserFromTokenHandler);
 
   // Authenticate
   app.post('/api/auth', validateRequest(createSessionSchema), signInHandler);
@@ -76,18 +82,18 @@ export default function (app: Express) {
   // Get sent requests
   app.get('/api/requests/sent', userAuthenticated(), getSentRequestsHandler);
 
-  // Get received requests
-  app.get(
-    '/api/requests/received',
-    userAuthenticated(),
-    getReceivedRequestsHandler,
-  );
-
   // Delete sent request
   app.delete(
     '/api/requests/sent/:userId',
     userAuthenticated(),
     deleteSentRequestHandler,
+  );
+
+  // Get received requests
+  app.get(
+    '/api/requests/received',
+    userAuthenticated(),
+    getReceivedRequestsHandler,
   );
 
   // Delete received request
@@ -112,5 +118,22 @@ export default function (app: Express) {
     '/api/friends/:friendId',
     userAuthenticated(),
     deleteFriendHandler,
+  );
+
+  // Add conversation
+  app.post(
+    '/api/conversations',
+    [userAuthenticated(), validateRequest(createConversationSchema)],
+    createConversationHandler,
+  );
+
+  // Get conversations list
+  app.get('/api/conversations', userAuthenticated(), getConversationsHandler);
+
+  // Get conversation
+  app.get(
+    '/api/conversations/:conversationId',
+    userAuthenticated(),
+    getConversationHandler,
   );
 }
