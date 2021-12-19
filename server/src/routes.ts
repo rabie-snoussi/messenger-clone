@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Express } from 'express';
 
 import {
@@ -30,8 +29,10 @@ import {
   createConversationHandler,
   getConversationHandler,
   getConversationsHandler,
+  createMessageHandler,
 } from './controller/conversation.controller';
 import { createConversationSchema } from './schema/conversation.schema';
+import { createMessageSchema } from './schema/message.schema';
 
 export default function (app: Express) {
   // Add a user
@@ -135,5 +136,12 @@ export default function (app: Express) {
     '/api/conversations/:conversationId',
     userAuthenticated(),
     getConversationHandler,
+  );
+
+  // Send message
+  app.post(
+    '/api/conversations/:conversationId/send',
+    [userAuthenticated(), validateRequest(createMessageSchema)],
+    createMessageHandler,
   );
 }

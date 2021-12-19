@@ -1,8 +1,8 @@
-/* eslint-disable */
 import { NextFunction, Request, Response } from 'express';
 import { LeanDocument } from 'mongoose';
 import get from 'lodash/get';
 import omit from 'lodash/omit';
+
 import {
   createUser,
   getUsers,

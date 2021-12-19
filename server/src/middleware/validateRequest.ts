@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AnySchema } from 'yup';
+
 import log from '../logger';
 
 const validate =

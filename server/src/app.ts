@@ -2,6 +2,7 @@ import express from 'express';
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+
 import dbConnect from './db/connect';
 import routes from './routes';
 import log from './logger';

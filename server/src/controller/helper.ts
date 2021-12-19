@@ -1,5 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import { LeanDocument } from 'mongoose';
+
 import { UserDocument } from '../model/user.model';
 
 export const hasReceivedRequest = (

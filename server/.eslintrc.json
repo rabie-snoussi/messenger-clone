@@ -20,6 +20,8 @@
     "operator-linebreak": "off",
     "no-underscore-dangle": "off",
     "implicit-arrow-linebreak": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "nonblock-statement-body-position": "off",
+    "curly": "off"
   }
 }

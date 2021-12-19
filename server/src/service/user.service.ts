@@ -8,6 +8,7 @@ import {
 import omit from 'lodash/omit';
 import bcrypt from 'bcrypt';
 import config from 'config';
+
 import User, { UserDocument } from '../model/user.model';
 
 export const createUser = async (input: DocumentDefinition<UserDocument>) => {

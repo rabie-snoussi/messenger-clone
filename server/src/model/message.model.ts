@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+
 import { UserDocument } from './user.model';
 
 export interface MessageDocument extends mongoose.Document {
-  userId: UserDocument;
+  user: UserDocument;
   message: string;
   createdAt: Date;
   updatedAt: Date;
@@ -10,7 +11,7 @@ export interface MessageDocument extends mongoose.Document {
 
 const MessageSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,

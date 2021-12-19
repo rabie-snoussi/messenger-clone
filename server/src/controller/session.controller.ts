@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import get from 'lodash/get';
 import config from 'config';
+
 import { validatePassword } from '../service/user.service';
 import {
   createAccessToken,

@@ -4,6 +4,7 @@ import {
   QueryOptions,
   DocumentDefinition,
 } from 'mongoose';
+
 import Conversation, {
   ConversationDocument,
 } from '../model/conversation.model';
@@ -23,6 +24,18 @@ export const createConversation = async (
 export const findConversation = async (
   query: FilterQuery<ConversationDocument>,
 ) => Conversation.findOne(query).lean();
+
+export const findConversationAndPopulate = async (
+  query: FilterQuery<ConversationDocument>,
+) =>
+  Conversation.findOne(query)
+    .lean()
+    .populate('participants', '-password')
+    .populate({
+      path: 'messages',
+      model: 'Message',
+      populate: { path: 'user', model: 'User', select: '-password' },
+    });
 
 export const findConversations = async (
   query: FilterQuery<ConversationDocument>,

@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import { Request, Response, NextFunction } from 'express';
+
 import { decode } from '../utils/jwt.utils';
 import { reIssueAccessToken } from '../service/session.service';
 import { findUser } from '../service/user.service';

@@ -1,6 +1,7 @@
 import { LeanDocument, FilterQuery } from 'mongoose';
 import get from 'lodash/get';
 import config from 'config';
+
 import Session, { SessionDocument } from '../model/session.model';
 import { UserDocument } from '../model/user.model';
 import { sign, decode } from '../utils/jwt.utils';

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { MessageDocument } from './message.model';
 import { UserDocument } from './user.model';
 
