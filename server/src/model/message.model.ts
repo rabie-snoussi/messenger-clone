@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { UserDocument } from './user.model';
 
 export interface MessageDocument extends mongoose.Document {
-  user: UserDocument;
+  userId: UserDocument;
   message: string;
   createdAt: Date;
   updatedAt: Date;
