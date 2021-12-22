@@ -4,7 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 import { PATHS } from 'shared/constants';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { getUser } from 'actions/user.action';
-import { Navigation } from 'components';
 import { User } from 'shared/interfaces';
 
 interface PrivateRoutesProps extends RouteComponentProps {
@@ -27,12 +26,7 @@ const PrivateRoutes = ({
 
   if (isEmpty(user)) return <div>Loading...</div>;
 
-  return (
-    <>
-      <Navigation />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 const mapStateToProps = (state: { user: User }) => {

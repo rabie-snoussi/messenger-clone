@@ -18,8 +18,9 @@ const Routes = () => (
       <PrivateRoutes>
         <Route path={PATHS.HOME} exact component={Home} />
         <Route path={PATHS.PROFILE} exact component={Profile} />
-        <Route component={NotFound} />
+        <Redirect to={PATHS.HOME} />
       </PrivateRoutes>
+      <Route component={NotFound} />
     </Switch>
   </Suspense>
 );
