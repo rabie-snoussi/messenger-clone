@@ -1,10 +1,36 @@
 import React from 'react';
-import Box from '@mui/material/Box';
+import { RouteComponentProps } from 'react-router';
 
-interface HomeProps {}
+import Grid from '@mui/material/Grid';
 
-const Home: React.FC<HomeProps> = () => (
-  <Box sx={{ background: '#f5f5f5', height: '100%' }}>Home</Box>
+import { Conversations, Chat } from 'components';
+
+interface MatchParams {
+  conversationId: string;
+}
+
+interface HomeProps extends RouteComponentProps<MatchParams> {}
+
+const Home: React.FC<HomeProps> = ({
+  match: {
+    params: { conversationId },
+  },
+}) => (
+  <Grid container sx={{ height: '100%' }}>
+    <Grid item xs={3}>
+      <Conversations conversationId={conversationId} />
+    </Grid>
+    <Grid
+      item
+      xs={9}
+      sx={{
+        borderRight: '1px solid #cfcfcf',
+        borderLeft: '1px solid #cfcfcf',
+      }}
+    >
+      {conversationId && <Chat conversationId={conversationId} />}
+    </Grid>
+  </Grid>
 );
 
 export default Home;

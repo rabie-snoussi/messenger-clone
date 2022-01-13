@@ -8,6 +8,10 @@ import {
   handleSignUp,
   handleUpdateUser,
 } from './user.middleware';
+import {
+  handleGetConversations,
+  handleGetConversation,
+} from './conversation.middleware';
 
 export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_USER, handleGetUser);
@@ -21,4 +25,8 @@ export function* watcherSaga() {
   yield takeLatest(ACTIONS.SIGN_OUT, handleSignOut);
 
   yield takeLatest(ACTIONS.SIGN_UP, handleSignUp);
+
+  yield takeLatest(ACTIONS.GET_CONVERSATIONS, handleGetConversations);
+
+  yield takeLatest(ACTIONS.GET_CONVERSATION, handleGetConversation);
 }

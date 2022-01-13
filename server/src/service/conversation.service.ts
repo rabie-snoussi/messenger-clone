@@ -41,6 +41,18 @@ export const findConversations = async (
   query: FilterQuery<ConversationDocument>,
 ) => Conversation.find(query).lean();
 
+export const findConversationsAndPopulate = async (
+  query: FilterQuery<ConversationDocument>,
+) =>
+  Conversation.find(query)
+    .lean()
+    .populate('participants', '-password -requests -friends -email')
+    .populate({
+      path: 'messages',
+      model: 'Message',
+      populate: { path: 'user', model: 'User', select: '-password -requests -friends -email' },
+    });
+
 export const findAndUpdate = async (
   query: FilterQuery<ConversationDocument>,
   update: UpdateQuery<ConversationDocument>,

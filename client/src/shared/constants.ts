@@ -5,6 +5,7 @@ export const PATHS = {
   HOME: '/home',
   PROFILE: '/profile',
   ERROR: '/error',
+  CONVERSATION: '/conversation',
 };
 
 export const API = process.env.REACT_APP_API;
@@ -18,4 +19,8 @@ export const ACTIONS = {
   SIGN_IN: 'SIGN_IN',
   SIGN_OUT: 'SIGN_OUT',
   SIGN_UP: 'SIGN_UP',
+  SET_CONVERSATIONS: 'SET_CONVERSATIONS',
+  GET_CONVERSATIONS: 'GET_CONVERSATIONS',
+  SET_CONVERSATION: 'SET_CONVERSATION',
+  GET_CONVERSATION: 'GET_CONVERSATION',
 };

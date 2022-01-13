@@ -3,6 +3,11 @@ export interface User {
   email: string;
   firstname: string;
   lastname: string;
+  requests: {
+    sent: User[];
+    received: User[];
+  };
+  friends: User[];
   createdAt: string;
   updatedAt: string;
 }
@@ -27,4 +32,20 @@ export interface UserUpdate {
   password: string;
   passwordConfirmation: string;
   role: string;
+}
+
+export interface Message {
+  _id: string;
+  user: User;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Conversation {
+  _id: string;
+  participants: User[];
+  messages: Message[];
+  createdAt: string;
+  updatedAt: string;
 }

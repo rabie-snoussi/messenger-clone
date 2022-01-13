@@ -19,5 +19,6 @@
   "userDeletionSuccess": "The user has been successfully deleted",
   "hasAccount": "Already have an account ? Sign In !",
   "connectPeople": "Connect with your favourite people",
-  "continue": "Continue"
+  "continue": "Continue",
+  "you": "You"
 }

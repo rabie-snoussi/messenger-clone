@@ -3,7 +3,7 @@ import get from 'lodash/get';
 
 import {
   createConversation,
-  findConversations,
+  findConversationsAndPopulate,
   findConversation,
   findAndUpdate,
   findConversationAndPopulate,
@@ -39,7 +39,7 @@ export const createConversationHandler = async (
 export const getConversationsHandler = async (req: Request, res: Response) => {
   try {
     const userId = get(req, 'user._id');
-    const conversations = await findConversations({
+    const conversations = await findConversationsAndPopulate({
       participants: userId,
     });
 

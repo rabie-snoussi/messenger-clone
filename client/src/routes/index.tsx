@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { PATHS } from 'shared/constants';
 import PrivateRoutes from './PrivateRoutes';
 
@@ -12,13 +12,15 @@ const Profile = lazy(() => import('pages/profile'));
 const Routes = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <Switch>
-      <Redirect from={PATHS.ROOT} exact to={PATHS.HOME} />
       <Route path={PATHS.SIGNIN} exact component={Signin} />
       <Route path={PATHS.SIGNUP} exact component={Signup} />
       <PrivateRoutes>
-        <Route path={PATHS.HOME} exact component={Home} />
+        <Route path={PATHS.ROOT} exact component={Home} />
         <Route path={PATHS.PROFILE} exact component={Profile} />
-        <Redirect to={PATHS.HOME} />
+        <Route
+          path={`${PATHS.CONVERSATION}/:conversationId`}
+          component={Home}
+        />
       </PrivateRoutes>
       <Route component={NotFound} />
     </Switch>
