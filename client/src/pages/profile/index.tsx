@@ -28,7 +28,7 @@ const Profile: React.FC<Props> = ({
   deleteUser,
   resetUser,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<UserUpdate>();
 
   const onSubmit = (data: UserUpdate) => {
     editUser({ userId: user._id, data });

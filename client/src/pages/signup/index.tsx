@@ -22,7 +22,7 @@ interface SignUpProps extends RouteComponentProps {
 }
 
 const Signup: React.FC<SignUpProps> = ({ createUser, history, user }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<UserCreation>();
 
   const onSubmit = (data: UserCreation) => {
     createUser(data);
