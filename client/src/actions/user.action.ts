@@ -1,13 +1,9 @@
 import { ACTIONS } from 'shared/constants';
 import { User, Credentials, UserCreation, UserUpdate } from 'shared/interfaces';
 
-export const setUser = (payload: User) => ({
+export const setUser = (payload: User | undefined) => ({
   type: ACTIONS.SET_USER,
   payload,
-});
-
-export const resetUser = () => ({
-  type: ACTIONS.RESET_USER,
 });
 
 export const getUser = () => ({

@@ -25,6 +25,8 @@ const Conversations: React.FC<ConversationsProps> = ({
     getConversations();
   }, []);
 
+  console.log(conversations);
+
   if (isEmpty(conversations)) return <div>Loading...</div>;
 
   return (

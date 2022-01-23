@@ -11,7 +11,7 @@ interface ConversationAction {
   payload?: Conversation;
 }
 
-export const conversations = (state = {}, action: ConversationsAction) => {
+export const conversations = (state = [], action: ConversationsAction) => {
   switch (action.type) {
     case ACTIONS.SET_CONVERSATIONS:
       return action.payload;

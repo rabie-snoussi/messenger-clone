@@ -9,7 +9,7 @@ import { User } from 'shared/interfaces';
 interface PrivateRoutesProps extends RouteComponentProps {
   children: ReactChild | ReactChild[];
   fetchUser: Function;
-  user: User | false;
+  user: User | undefined;
 }
 
 const PrivateRoutes = ({
@@ -22,7 +22,7 @@ const PrivateRoutes = ({
     fetchUser();
   }, []);
 
-  if (user === false) history.push(PATHS.SIGNIN);
+  if (user === undefined) history.push(PATHS.SIGNIN);
 
   if (isEmpty(user)) return <div>Loading...</div>;
 

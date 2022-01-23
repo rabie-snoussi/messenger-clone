@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import get from 'lodash/get';
-import { setUser, resetUser } from 'actions/user.action';
+import { setUser } from 'actions/user.action';
 import {
   deleteUserRequest,
   getUserRequest,
@@ -42,7 +42,7 @@ export function* handleGetUser() {
     yield put(setUser(user));
   } catch (e: any) {
     toast.error(e.message);
-    yield put(resetUser());
+    yield put(setUser(undefined));
   }
 }
 
@@ -57,14 +57,14 @@ export function* handleSignIn({ payload }: SignIn) {
     yield put(setUser(user));
   } catch (e: any) {
     toast.error(e.message);
-    yield put(resetUser());
+    yield put(setUser(undefined));
   }
 }
 
 export function* handleSignOut() {
   try {
     yield call(signOutRequest);
-    yield put(resetUser());
+    yield put(setUser(undefined));
   } catch (e: any) {
     toast.error(e.message);
   }
@@ -103,7 +103,7 @@ export function* handleDeleteUser({ payload }: DeleteUser) {
   try {
     yield call(deleteUserRequest, payload);
 
-    yield put(resetUser());
+    yield put(setUser(undefined));
   } catch (e: any) {
     toast.error(e.message);
   }

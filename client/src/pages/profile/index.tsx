@@ -11,7 +11,7 @@ import { User, UserUpdate } from 'shared/interfaces';
 import {
   updateUser,
   deleteUser as deleteAction,
-  resetUser as resetAction,
+  setUser as setAction,
 } from 'actions/user.action';
 import locale from 'shared/locale.json';
 
@@ -19,15 +19,10 @@ interface Props {
   editUser: Function;
   user: User;
   deleteUser: Function;
-  resetUser: Function;
+  setUser: Function;
 }
 
-const Profile: React.FC<Props> = ({
-  editUser,
-  user,
-  deleteUser,
-  resetUser,
-}) => {
+const Profile: React.FC<Props> = ({ editUser, user, deleteUser, setUser }) => {
   const { register, handleSubmit } = useForm<UserUpdate>();
 
   const onSubmit = (data: UserUpdate) => {
@@ -36,7 +31,7 @@ const Profile: React.FC<Props> = ({
 
   const onDelete = (data: User) => {
     deleteUser(data);
-    resetUser();
+    setUser(undefined);
   };
 
   return (
@@ -148,7 +143,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   editUser: ({ userId, data }: { userId: string; data: UserUpdate }) =>
     dispatch(updateUser({ userId, data })),
   deleteUser: (data: User) => dispatch(deleteAction(data)),
-  resetUser: () => dispatch(resetAction()),
+  setUser: (user: User | undefined) => dispatch(setAction(user)),
 });
 
 export default withRouter(
