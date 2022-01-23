@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 
 import Grid from '@mui/material/Grid';
 
-import { Conversations, Chat } from 'components';
+import { Chat, Conversations } from 'components';
 
 interface MatchParams {
   conversationId: string;

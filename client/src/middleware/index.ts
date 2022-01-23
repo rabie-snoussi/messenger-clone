@@ -3,6 +3,7 @@ import { ACTIONS } from 'shared/constants';
 import {
   handleDeleteUser,
   handleGetUser,
+  handleGetUsers,
   handleSignIn,
   handleSignOut,
   handleSignUp,
@@ -15,6 +16,8 @@ import {
 
 export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_USER, handleGetUser);
+
+  yield takeLatest(ACTIONS.GET_USERS, handleGetUsers);
 
   yield takeLatest(ACTIONS.UPDATE_USER, handleUpdateUser);
 

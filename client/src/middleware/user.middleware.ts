@@ -1,9 +1,10 @@
 import { call, put } from 'redux-saga/effects';
 import get from 'lodash/get';
-import { setUser } from 'actions/user.action';
+import { setUser, setUsers } from 'actions/user.action';
 import {
   deleteUserRequest,
   getUserRequest,
+  getUsersRequest,
   signInRequest,
   signOutRequest,
   signUpRequest,
@@ -43,6 +44,20 @@ export function* handleGetUser() {
   } catch (e: any) {
     toast.error(e.message);
     yield put(setUser(null));
+  }
+}
+
+export function* handleGetUsers() {
+  try {
+    const response: ReturnType<typeof getUsersRequest> = yield call(
+      getUsersRequest,
+    );
+
+    const users = get(response, 'data');
+    yield put(setUsers(users));
+  } catch (e: any) {
+    toast.error(e.message);
+    yield put(setUsers(null));
   }
 }
 

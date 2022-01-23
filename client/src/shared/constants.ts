@@ -11,9 +11,10 @@ export const PATHS = {
 export const API = process.env.REACT_APP_API;
 
 export const ACTIONS = {
-  SET_USER: 'SET_USER',
-  RESET_USER: 'RESET_USER',
   GET_USER: 'GET_USER',
+  SET_USER: 'SET_USER',
+  GET_USERS: 'GET_USERS',
+  SET_USERS: 'SET_USERS',
   UPDATE_USER: 'UPDATE_USER',
   DELETE_USER: 'DELETE_USER',
   SIGN_IN: 'SIGN_IN',

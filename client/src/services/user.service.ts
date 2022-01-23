@@ -12,6 +12,14 @@ export const getUserRequest = () => {
   return response;
 };
 
+export const getUsersRequest = () => {
+  const response = axios.get(`${API}/users`, {
+    withCredentials: true,
+  });
+
+  return response;
+};
+
 export const signInRequest = (payload: Credentials) => {
   const response = axios.post(`${API}/auth`, payload, {
     withCredentials: true,

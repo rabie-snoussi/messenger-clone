@@ -6,9 +6,18 @@ interface Action {
   payload?: User | null;
 }
 
-export default (state = {}, action: Action) => {
+export const user = (state = {}, action: Action) => {
   switch (action.type) {
     case ACTIONS.SET_USER:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const users = (state = [], action: Action) => {
+  switch (action.type) {
+    case ACTIONS.SET_USERS:
       return action.payload;
     default:
       return state;
