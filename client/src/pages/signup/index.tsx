@@ -28,7 +28,7 @@ const Signup: React.FC<SignUpProps> = ({ createUser, history, user }) => {
     createUser(data);
   };
 
-  if (!isEmpty(user)) history.push(PATHS.HOME);
+  if (!isEmpty(user)) history.push(PATHS.ROOT);
 
   return (
     <Box

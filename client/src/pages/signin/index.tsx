@@ -28,7 +28,7 @@ const Signin: React.FC<SigninProps> = ({ history, login, user }) => {
     login(credentials);
   };
 
-  if (!isEmpty(user)) history.push(PATHS.HOME);
+  if (!isEmpty(user)) history.push(PATHS.ROOT);
 
   return (
     <Box
