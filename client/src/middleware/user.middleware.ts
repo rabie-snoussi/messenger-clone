@@ -42,7 +42,7 @@ export function* handleGetUser() {
     yield put(setUser(user));
   } catch (e: any) {
     toast.error(e.message);
-    yield put(setUser(undefined));
+    yield put(setUser(null));
   }
 }
 
@@ -57,14 +57,14 @@ export function* handleSignIn({ payload }: SignIn) {
     yield put(setUser(user));
   } catch (e: any) {
     toast.error(e.message);
-    yield put(setUser(undefined));
+    yield put(setUser(null));
   }
 }
 
 export function* handleSignOut() {
   try {
     yield call(signOutRequest);
-    yield put(setUser(undefined));
+    yield put(setUser(null));
   } catch (e: any) {
     toast.error(e.message);
   }
@@ -103,7 +103,7 @@ export function* handleDeleteUser({ payload }: DeleteUser) {
   try {
     yield call(deleteUserRequest, payload);
 
-    yield put(setUser(undefined));
+    yield put(setUser(null));
   } catch (e: any) {
     toast.error(e.message);
   }

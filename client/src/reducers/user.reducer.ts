@@ -3,7 +3,7 @@ import { User } from 'shared/interfaces';
 
 interface Action {
   type: string;
-  payload?: User | undefined;
+  payload?: User | null;
 }
 
 export default (state = {}, action: Action) => {

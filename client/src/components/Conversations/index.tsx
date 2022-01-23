@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import isNull from 'lodash/isNull';
 
 import Box from '@mui/material/Box';
 
@@ -25,8 +26,7 @@ const Conversations: React.FC<ConversationsProps> = ({
     getConversations();
   }, []);
 
-  console.log(conversations);
-
+  if (isNull(conversations)) return <></>;
   if (isEmpty(conversations)) return <div>Loading...</div>;
 
   return (

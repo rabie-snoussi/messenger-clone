@@ -31,7 +31,7 @@ const Profile: React.FC<Props> = ({ editUser, user, deleteUser, setUser }) => {
 
   const onDelete = (data: User) => {
     deleteUser(data);
-    setUser(undefined);
+    setUser(null);
   };
 
   return (
@@ -143,7 +143,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   editUser: ({ userId, data }: { userId: string; data: UserUpdate }) =>
     dispatch(updateUser({ userId, data })),
   deleteUser: (data: User) => dispatch(deleteAction(data)),
-  setUser: (user: User | undefined) => dispatch(setAction(user)),
+  setUser: (user: User | null) => dispatch(setAction(user)),
 });
 
 export default withRouter(

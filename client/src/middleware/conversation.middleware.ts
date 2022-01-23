@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 
 import { setConversations, setConversation } from 'actions/conversation.action';
@@ -20,7 +21,8 @@ export function* handleGetConversations() {
     );
 
     const conversations = get(response, 'data');
-    yield put(setConversations(conversations));
+    if (isEmpty(conversations)) yield put(setConversations(null));
+    else yield put(setConversations(conversations));
   } catch (e: any) {
     toast.error(e.message);
   }

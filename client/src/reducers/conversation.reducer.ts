@@ -3,7 +3,7 @@ import { Conversation } from 'shared/interfaces';
 
 interface ConversationsAction {
   type: string;
-  payload?: Conversation[];
+  payload?: Conversation[] | null;
 }
 
 interface ConversationAction {

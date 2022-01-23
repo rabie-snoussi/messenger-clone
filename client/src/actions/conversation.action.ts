@@ -1,7 +1,7 @@
 import { ACTIONS } from 'shared/constants';
 import { Conversation } from 'shared/interfaces';
 
-export const setConversations = (payload: Conversation[]) => ({
+export const setConversations = (payload: Conversation[] | null) => ({
   type: ACTIONS.SET_CONVERSATIONS,
   payload,
 });
