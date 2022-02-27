@@ -49,3 +49,7 @@ export interface Conversation {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface FriendRequest {
+  userId: string;
+}

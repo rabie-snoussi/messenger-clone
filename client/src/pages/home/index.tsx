@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 
 import Grid from '@mui/material/Grid';
 
-import { Chat, Conversations } from 'components';
+import { Chat, Tabs } from 'components';
 
 interface MatchParams {
   conversationId: string;
@@ -18,7 +18,7 @@ const Home: React.FC<HomeProps> = ({
 }) => (
   <Grid container sx={{ height: '100%' }}>
     <Grid item xs={3}>
-      <Conversations conversationId={conversationId} />
+      <Tabs conversationId={conversationId} />
     </Grid>
     <Grid
       item

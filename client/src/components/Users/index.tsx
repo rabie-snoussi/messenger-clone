@@ -5,15 +5,22 @@ import Box from '@mui/material/Box';
 
 import { User } from 'shared/interfaces';
 import { getUsers as getUsersAction } from 'actions/user.action';
+import { sendFriendRequest as sendFriendRequestAction } from 'actions/request.action';
 import UserItem from './UserItem';
 
 interface UsersProps {
   users: User[];
   getUsers: Function;
   user: User;
+  sendFriendRequest: Function;
 }
 
-const Users: React.FC<UsersProps> = ({ users, getUsers, user }) => {
+const Users: React.FC<UsersProps> = ({
+  users,
+  getUsers,
+  user,
+  sendFriendRequest,
+}) => {
   useEffect(() => {
     getUsers();
   }, []);
@@ -27,7 +34,11 @@ const Users: React.FC<UsersProps> = ({ users, getUsers, user }) => {
       }}
     >
       {filteredUsers.map((item: User) => (
-        <UserItem key={item._id} user={item} />
+        <UserItem
+          key={item._id}
+          user={item}
+          sendFriendRequest={sendFriendRequest}
+        />
       ))}
     </Box>
   );
@@ -40,6 +51,8 @@ const mapStateToProps = (state: { users: User[]; user: User }) => {
 
 const mapDispatchToProps = (dispatch: Function) => ({
   getUsers: () => dispatch(getUsersAction()),
+  sendFriendRequest: (userId: string) =>
+    dispatch(sendFriendRequestAction({ userId })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
