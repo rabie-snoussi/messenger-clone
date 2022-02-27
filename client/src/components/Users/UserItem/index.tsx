@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
+import Button from '@mui/material/Button';
 
 import { User } from 'shared/interfaces';
 import locale from 'shared/locale.json';
@@ -12,12 +13,16 @@ interface UserProps {
   user: User;
   sendFriendRequest: Function;
   isSentRequest: boolean;
+  isReceivedRequest: boolean;
+  isFriend: boolean;
 }
 
 const UserItem: React.FC<UserProps> = ({
   user,
   sendFriendRequest,
   isSentRequest,
+  isReceivedRequest,
+  isFriend,
 }) => {
   const userFullname = (participants: User) =>
     `${participants.firstname} ${participants.lastname}`;
@@ -47,7 +52,7 @@ const UserItem: React.FC<UserProps> = ({
           {userFullname(user)}
         </Typography>
         <Box>
-          {!isSentRequest && (
+          {!isSentRequest && !isReceivedRequest && !isFriend && (
             <Box
               sx={{
                 display: 'flex',
@@ -81,6 +86,27 @@ const UserItem: React.FC<UserProps> = ({
             >
               <Typography variant="caption" component="div">
                 {locale.invitationSent}
+              </Typography>
+            </Box>
+          )}
+
+          {isReceivedRequest && (
+            <Button variant="contained" size="small" sx={{ fontSize: '10px' }}>
+              {locale.accept}
+            </Button>
+          )}
+
+          {isFriend && (
+            <Box
+              sx={{
+                padding: '0px 5px',
+                background: '#007eff',
+                borderRadius: '4px',
+                color: 'white',
+              }}
+            >
+              <Typography variant="caption" component="div">
+                {locale.friend}
               </Typography>
             </Box>
           )}

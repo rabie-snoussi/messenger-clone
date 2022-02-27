@@ -23,5 +23,7 @@
   "you": "You",
   "conversations": "Conversations",
   "users": "Users",
-  "invitationSent": "Invitation sent"
+  "invitationSent": "Invitation sent",
+  "accept": "Accept",
+  "friend": "Friend"
 }

@@ -28,6 +28,9 @@ const Users: React.FC<UsersProps> = ({
   const filteredUsers = users.filter(({ _id }) => _id !== user._id);
 
   const isSentRequest = (userId: string) => user.requests.sent.includes(userId);
+  const isReceivedRequest = (userId: string) =>
+    user.requests.received.includes(userId);
+  const isFriend = (userId: string) => user.friends.includes(userId);
 
   return (
     <Box
@@ -41,6 +44,8 @@ const Users: React.FC<UsersProps> = ({
           user={item}
           sendFriendRequest={sendFriendRequest}
           isSentRequest={isSentRequest(item._id)}
+          isReceivedRequest={isReceivedRequest(item._id)}
+          isFriend={isFriend(item._id)}
         />
       ))}
     </Box>
