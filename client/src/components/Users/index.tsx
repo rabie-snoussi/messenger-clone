@@ -27,6 +27,8 @@ const Users: React.FC<UsersProps> = ({
 
   const filteredUsers = users.filter(({ _id }) => _id !== user._id);
 
+  const isSentRequest = (userId: string) => user.requests.sent.includes(userId);
+
   return (
     <Box
       sx={{
@@ -38,6 +40,7 @@ const Users: React.FC<UsersProps> = ({
           key={item._id}
           user={item}
           sendFriendRequest={sendFriendRequest}
+          isSentRequest={isSentRequest(item._id)}
         />
       ))}
     </Box>

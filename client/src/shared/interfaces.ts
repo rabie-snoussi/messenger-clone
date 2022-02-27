@@ -4,10 +4,10 @@ export interface User {
   firstname: string;
   lastname: string;
   requests: {
-    sent: User[];
-    received: User[];
+    sent: string[];
+    received: string[];
   };
-  friends: User[];
+  friends: string[];
   createdAt: string;
   updatedAt: string;
 }
