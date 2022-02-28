@@ -12,6 +12,7 @@ import locale from 'shared/locale.json';
 interface UserProps {
   user: User;
   sendFriendRequest: Function;
+  acceptFriendRequest: Function;
   isSentRequest: boolean;
   isReceivedRequest: boolean;
   isFriend: boolean;
@@ -20,6 +21,7 @@ interface UserProps {
 const UserItem: React.FC<UserProps> = ({
   user,
   sendFriendRequest,
+  acceptFriendRequest,
   isSentRequest,
   isReceivedRequest,
   isFriend,
@@ -91,7 +93,12 @@ const UserItem: React.FC<UserProps> = ({
           )}
 
           {isReceivedRequest && (
-            <Button variant="contained" size="small" sx={{ fontSize: '10px' }}>
+            <Button
+              variant="contained"
+              size="small"
+              sx={{ fontSize: '10px' }}
+              onClick={() => acceptFriendRequest(user._id)}
+            >
               {locale.accept}
             </Button>
           )}

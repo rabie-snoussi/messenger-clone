@@ -25,3 +25,11 @@ export const sendFriendRequest = (payload: FriendRequest) => {
 
   return response;
 };
+
+export const acceptFriendRequest = ({ userId }: FriendRequest) => {
+  const response = axios.patch(`${API}/requests/accept/${userId}`, null, {
+    withCredentials: true,
+  });
+
+  return response;
+};

@@ -5,13 +5,20 @@ import { toast } from 'react-toastify';
 
 import { setReceivedRequests, setSentRequests } from 'actions/request.action';
 import {
+  acceptFriendRequest,
   getReceivedRequests,
   getSentRequests,
   sendFriendRequest,
 } from 'services/request.service';
 import { FriendRequest } from 'shared/interfaces';
+import { setUser } from 'actions/user.action';
 
 interface SendFriendRequest {
+  type: string;
+  payload: FriendRequest;
+}
+
+interface AcceptFriendRequest {
   type: string;
   payload: FriendRequest;
 }
@@ -51,9 +58,22 @@ export function* handleSendFriendRequest({ payload }: SendFriendRequest) {
       payload,
     );
 
-    const receivedRequests = get(response, 'data');
-    if (isEmpty(receivedRequests)) yield put(setReceivedRequests(null));
-    else yield put(setReceivedRequests(receivedRequests));
+    const user = get(response, 'data');
+    if (!isEmpty(user)) yield put(setUser(user));
+  } catch (e: any) {
+    toast.error(e.message);
+  }
+}
+
+export function* handleAcceptFriendRequest({ payload }: AcceptFriendRequest) {
+  try {
+    const response: ReturnType<typeof acceptFriendRequest> = yield call(
+      acceptFriendRequest,
+      payload,
+    );
+
+    const user = get(response, 'data');
+    if (!isEmpty(user)) yield put(setUser(user));
   } catch (e: any) {
     toast.error(e.message);
   }

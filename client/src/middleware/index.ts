@@ -13,7 +13,12 @@ import {
   handleGetConversations,
   handleGetConversation,
 } from './conversation.middleware';
-import { handleGetReceivedRequests, handleGetSentRequests, handleSendFriendRequest } from './request.middleware';
+import {
+  handleAcceptFriendRequest,
+  handleGetReceivedRequests,
+  handleGetSentRequests,
+  handleSendFriendRequest,
+} from './request.middleware';
 
 export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_USER, handleGetUser);
@@ -39,4 +44,6 @@ export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_RECEIVED_REQUESTS, handleGetReceivedRequests);
 
   yield takeLatest(ACTIONS.SEND_FRIEND_REQUEST, handleSendFriendRequest);
+
+  yield takeLatest(ACTIONS.ACCEPT_FRIEND_REQUEST, handleAcceptFriendRequest);
 }

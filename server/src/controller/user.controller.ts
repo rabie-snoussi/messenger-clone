@@ -130,6 +130,8 @@ export const sendFriendRequestHandler = async (req: Request, res: Response) => {
 
     if (
       hasSentRequest(sender, receiverId) ||
+      hasSentRequest(receiver, senderId) ||
+      hasReceivedRequest(sender, receiverId) ||
       hasReceivedRequest(receiver, senderId) ||
       hasFriend(receiver, senderId)
     )

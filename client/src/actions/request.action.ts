@@ -23,3 +23,8 @@ export const sendFriendRequest = (payload: FriendRequest) => ({
   type: ACTIONS.SEND_FRIEND_REQUEST,
   payload,
 });
+
+export const acceptFriendRequest = (payload: FriendRequest) => ({
+  type: ACTIONS.ACCEPT_FRIEND_REQUEST,
+  payload,
+});

@@ -5,7 +5,10 @@ import Box from '@mui/material/Box';
 
 import { User } from 'shared/interfaces';
 import { getUsers as getUsersAction } from 'actions/user.action';
-import { sendFriendRequest as sendFriendRequestAction } from 'actions/request.action';
+import {
+  sendFriendRequest as sendFriendRequestAction,
+  acceptFriendRequest as acceptFriendRequestAction,
+} from 'actions/request.action';
 import UserItem from './UserItem';
 
 interface UsersProps {
@@ -13,6 +16,7 @@ interface UsersProps {
   getUsers: Function;
   user: User;
   sendFriendRequest: Function;
+  acceptFriendRequest: Function;
 }
 
 const Users: React.FC<UsersProps> = ({
@@ -20,6 +24,7 @@ const Users: React.FC<UsersProps> = ({
   getUsers,
   user,
   sendFriendRequest,
+  acceptFriendRequest,
 }) => {
   useEffect(() => {
     getUsers();
@@ -43,6 +48,7 @@ const Users: React.FC<UsersProps> = ({
           key={item._id}
           user={item}
           sendFriendRequest={sendFriendRequest}
+          acceptFriendRequest={acceptFriendRequest}
           isSentRequest={isSentRequest(item._id)}
           isReceivedRequest={isReceivedRequest(item._id)}
           isFriend={isFriend(item._id)}
@@ -61,6 +67,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
   getUsers: () => dispatch(getUsersAction()),
   sendFriendRequest: (userId: string) =>
     dispatch(sendFriendRequestAction({ userId })),
+  acceptFriendRequest: (userId: string) =>
+    dispatch(acceptFriendRequestAction({ userId })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);
