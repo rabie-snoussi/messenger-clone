@@ -2,13 +2,13 @@ import { call, put } from 'redux-saga/effects';
 import get from 'lodash/get';
 import { setUser, setUsers } from 'actions/user.action';
 import {
-  deleteUserRequest,
-  getUserRequest,
-  getUsersRequest,
-  signInRequest,
-  signOutRequest,
-  signUpRequest,
-  updateUserRequest,
+  deleteUser,
+  fetchUser,
+  fetchUsers,
+  signIn,
+  signOut,
+  signUp,
+  updateUser,
 } from 'services/user.service';
 import { Credentials, UserCreation, UserUpdate, User } from 'shared/interfaces';
 import { toast } from 'react-toastify';
@@ -35,8 +35,8 @@ interface DeleteUser {
 
 export function* handleGetUser() {
   try {
-    const response: ReturnType<typeof getUserRequest> = yield call(
-      getUserRequest,
+    const response: ReturnType<typeof fetchUser> = yield call(
+      fetchUser,
     );
 
     const user = get(response, 'data');
@@ -49,8 +49,8 @@ export function* handleGetUser() {
 
 export function* handleGetUsers() {
   try {
-    const response: ReturnType<typeof getUsersRequest> = yield call(
-      getUsersRequest,
+    const response: ReturnType<typeof fetchUsers> = yield call(
+      fetchUsers,
     );
 
     const users = get(response, 'data');
@@ -63,8 +63,8 @@ export function* handleGetUsers() {
 
 export function* handleSignIn({ payload }: SignIn) {
   try {
-    const response: ReturnType<typeof signInRequest> = yield call(
-      signInRequest,
+    const response: ReturnType<typeof signIn> = yield call(
+      signIn,
       payload,
     );
 
@@ -78,7 +78,7 @@ export function* handleSignIn({ payload }: SignIn) {
 
 export function* handleSignOut() {
   try {
-    yield call(signOutRequest);
+    yield call(signOut);
     yield put(setUser(null));
   } catch (e: any) {
     toast.error(e.message);
@@ -87,8 +87,8 @@ export function* handleSignOut() {
 
 export function* handleSignUp({ payload }: SignUp) {
   try {
-    const response: ReturnType<typeof signUpRequest> = yield call(
-      signUpRequest,
+    const response: ReturnType<typeof signUp> = yield call(
+      signUp,
       payload,
     );
 
@@ -101,8 +101,8 @@ export function* handleSignUp({ payload }: SignUp) {
 
 export function* handleUpdateUser({ payload }: UpdateUser) {
   try {
-    const response: ReturnType<typeof updateUserRequest> = yield call(
-      updateUserRequest,
+    const response: ReturnType<typeof updateUser> = yield call(
+      updateUser,
       payload,
     );
 
@@ -116,7 +116,7 @@ export function* handleUpdateUser({ payload }: UpdateUser) {
 
 export function* handleDeleteUser({ payload }: DeleteUser) {
   try {
-    yield call(deleteUserRequest, payload);
+    yield call(deleteUser, payload);
 
     yield put(setUser(null));
   } catch (e: any) {

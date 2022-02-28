@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API } from 'shared/constants';
 import { FriendRequest } from 'shared/interfaces';
 
-export const getSentRequests = () => {
+export const fetchSentRequests = () => {
   const response = axios.get(`${API}/requests/sent`, {
     withCredentials: true,
   });
@@ -10,7 +10,7 @@ export const getSentRequests = () => {
   return response;
 };
 
-export const getReceivedRequests = () => {
+export const fetchReceivedRequests = () => {
   const response = axios.get(`${API}/api/requests/received`, {
     withCredentials: true,
   });

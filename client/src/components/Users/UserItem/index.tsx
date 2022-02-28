@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import SendIcon from '@mui/icons-material/Send';
 
 import { User } from 'shared/interfaces';
 import locale from 'shared/locale.json';
@@ -55,26 +57,13 @@ const UserItem: React.FC<UserProps> = ({
         </Typography>
         <Box>
           {!isSentRequest && !isReceivedRequest && !isFriend && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'white',
-                borderRadius: '50%',
-                width: '30px',
-                height: '30px',
-                cursor: 'pointer',
-                '&:hover': {
-                  boxShadow: '0px 0px 15px 0px rgba(0,0,0,0.40)',
-                },
-              }}
+            <IconButton
+              color="default"
+              size="small"
+              onClick={() => sendFriendRequest(user._id)}
             >
-              <PersonAddRoundedIcon
-                sx={{ color: 'black', fontSize: '20px' }}
-                onClick={() => sendFriendRequest(user._id)}
-              />
-            </Box>
+              <PersonAddRoundedIcon />
+            </IconButton>
           )}
 
           {isSentRequest && (
@@ -104,17 +93,10 @@ const UserItem: React.FC<UserProps> = ({
           )}
 
           {isFriend && (
-            <Box
-              sx={{
-                padding: '0px 5px',
-                background: '#007eff',
-                borderRadius: '4px',
-                color: 'white',
-              }}
-            >
-              <Typography variant="caption" component="div">
-                {locale.friend}
-              </Typography>
+            <Box>
+              <IconButton color="primary" size="small">
+                <SendIcon />
+              </IconButton>
             </Box>
           )}
         </Box>

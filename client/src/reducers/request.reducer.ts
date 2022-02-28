@@ -3,7 +3,7 @@ import { User } from 'shared/interfaces';
 
 interface RequestsAction {
   type: string;
-  payload?: User[] | null;
+  payload: User[];
 }
 
 export const sentRequests = (state = [], action: RequestsAction) => {

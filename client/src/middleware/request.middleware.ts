@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import { setReceivedRequests, setSentRequests } from 'actions/request.action';
 import {
   acceptFriendRequest,
-  getReceivedRequests,
-  getSentRequests,
+  fetchReceivedRequests,
+  fetchSentRequests,
   sendFriendRequest,
 } from 'services/request.service';
 import { FriendRequest } from 'shared/interfaces';
@@ -25,8 +25,8 @@ interface AcceptFriendRequest {
 
 export function* handleGetSentRequests() {
   try {
-    const response: ReturnType<typeof getSentRequests> = yield call(
-      getSentRequests,
+    const response: ReturnType<typeof fetchSentRequests> = yield call(
+      fetchSentRequests,
     );
 
     const sentRequests = get(response, 'data');
@@ -39,8 +39,8 @@ export function* handleGetSentRequests() {
 
 export function* handleGetReceivedRequests() {
   try {
-    const response: ReturnType<typeof getReceivedRequests> = yield call(
-      getReceivedRequests,
+    const response: ReturnType<typeof fetchReceivedRequests> = yield call(
+      fetchReceivedRequests,
     );
 
     const receivedRequests = get(response, 'data');

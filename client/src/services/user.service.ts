@@ -4,7 +4,7 @@ import { API } from 'shared/constants';
 import locale from 'shared/locale.json';
 import { toastify } from './helper';
 
-export const getUserRequest = () => {
+export const fetchUser = () => {
   const response = axios.get(`${API}/user`, {
     withCredentials: true,
   });
@@ -12,7 +12,7 @@ export const getUserRequest = () => {
   return response;
 };
 
-export const getUsersRequest = () => {
+export const fetchUsers = () => {
   const response = axios.get(`${API}/users`, {
     withCredentials: true,
   });
@@ -20,7 +20,7 @@ export const getUsersRequest = () => {
   return response;
 };
 
-export const signInRequest = (payload: Credentials) => {
+export const signIn = (payload: Credentials) => {
   const response = axios.post(`${API}/auth`, payload, {
     withCredentials: true,
   });
@@ -30,7 +30,7 @@ export const signInRequest = (payload: Credentials) => {
   return response;
 };
 
-export const signUpRequest = (payload: UserCreation) => {
+export const signUp = (payload: UserCreation) => {
   const response = axios.post(`${API}/users`, payload, {
     withCredentials: true,
   });
@@ -40,7 +40,7 @@ export const signUpRequest = (payload: UserCreation) => {
   return response;
 };
 
-export const signOutRequest = () => {
+export const signOut = () => {
   const response = axios.delete(`${API}/auth`, {
     withCredentials: true,
   });
@@ -48,7 +48,7 @@ export const signOutRequest = () => {
   return response;
 };
 
-export const updateUserRequest = ({
+export const updateUser = ({
   userId,
   data,
 }: {
@@ -67,7 +67,7 @@ export const updateUserRequest = ({
   return response;
 };
 
-export const deleteUserRequest = (payload: User) => {
+export const deleteUser = (payload: User) => {
   const response = axios.delete(`${API}/users/${payload._id}`, {
     withCredentials: true,
   });

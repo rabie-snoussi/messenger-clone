@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API } from 'shared/constants';
 
-export const getConversationsResquest = () => {
+export const fetchConversations = () => {
   const response = axios.get(`${API}/conversations`, {
     withCredentials: true,
   });
@@ -9,7 +9,7 @@ export const getConversationsResquest = () => {
   return response;
 };
 
-export const getConversationResquest = (conversationId: string) => {
+export const fetchConversation = (conversationId: string) => {
   const response = axios.get(`${API}/conversations/${conversationId}`, {
     withCredentials: true,
   });

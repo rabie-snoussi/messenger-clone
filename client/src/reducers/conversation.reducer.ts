@@ -3,12 +3,12 @@ import { Conversation } from 'shared/interfaces';
 
 interface ConversationsAction {
   type: string;
-  payload?: Conversation[] | null;
+  payload: Conversation[];
 }
 
 interface ConversationAction {
   type: string;
-  payload?: Conversation;
+  payload: Conversation;
 }
 
 export const conversations = (state = [], action: ConversationsAction) => {

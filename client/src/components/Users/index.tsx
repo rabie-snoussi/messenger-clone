@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Box from '@mui/material/Box';
 
 import { User } from 'shared/interfaces';
-import { getUsers as getUsersAction } from 'actions/user.action';
 import {
   sendFriendRequest as sendFriendRequestAction,
   acceptFriendRequest as acceptFriendRequestAction,
@@ -13,7 +12,6 @@ import UserItem from './UserItem';
 
 interface UsersProps {
   users: User[];
-  getUsers: Function;
   user: User;
   sendFriendRequest: Function;
   acceptFriendRequest: Function;
@@ -21,15 +19,10 @@ interface UsersProps {
 
 const Users: React.FC<UsersProps> = ({
   users,
-  getUsers,
   user,
   sendFriendRequest,
   acceptFriendRequest,
 }) => {
-  useEffect(() => {
-    getUsers();
-  }, []);
-
   const filteredUsers = users.filter(({ _id }) => _id !== user._id);
 
   const isSentRequest = (userId: string) => user.requests.sent.includes(userId);
@@ -59,12 +52,11 @@ const Users: React.FC<UsersProps> = ({
 };
 
 const mapStateToProps = (state: { users: User[]; user: User }) => {
-  const { users, user } = state;
-  return { users, user };
+  const { user } = state;
+  return { user };
 };
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  getUsers: () => dispatch(getUsersAction()),
   sendFriendRequest: (userId: string) =>
     dispatch(sendFriendRequestAction({ userId })),
   acceptFriendRequest: (userId: string) =>

@@ -19,6 +19,7 @@ import {
   handleGetSentRequests,
   handleSendFriendRequest,
 } from './request.middleware';
+import { handleGetFriends } from './friend.middleware';
 
 export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_USER, handleGetUser);
@@ -46,4 +47,6 @@ export function* watcherSaga() {
   yield takeLatest(ACTIONS.SEND_FRIEND_REQUEST, handleSendFriendRequest);
 
   yield takeLatest(ACTIONS.ACCEPT_FRIEND_REQUEST, handleAcceptFriendRequest);
+
+  yield takeLatest(ACTIONS.GET_FRIENDS, handleGetFriends);
 }

@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 
 import { setConversations, setConversation } from 'actions/conversation.action';
 import {
-  getConversationsResquest,
-  getConversationResquest,
+  fetchConversations,
+  fetchConversation,
 } from 'services/conversation.service';
 
 interface GetConversation {
@@ -16,8 +16,8 @@ interface GetConversation {
 
 export function* handleGetConversations() {
   try {
-    const response: ReturnType<typeof getConversationsResquest> = yield call(
-      getConversationsResquest,
+    const response: ReturnType<typeof fetchConversations> = yield call(
+      fetchConversations,
     );
 
     const conversations = get(response, 'data');
@@ -30,8 +30,8 @@ export function* handleGetConversations() {
 
 export function* handleGetConversation({ payload }: GetConversation) {
   try {
-    const response: ReturnType<typeof getConversationResquest> = yield call(
-      getConversationResquest,
+    const response: ReturnType<typeof fetchConversation> = yield call(
+      fetchConversation,
       payload,
     );
 
