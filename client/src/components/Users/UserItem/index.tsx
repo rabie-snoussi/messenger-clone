@@ -15,6 +15,7 @@ interface UserProps {
   user: User;
   sendFriendRequest: Function;
   acceptFriendRequest: Function;
+  createConversation: Function;
   isSentRequest: boolean;
   isReceivedRequest: boolean;
   isFriend: boolean;
@@ -24,6 +25,7 @@ const UserItem: React.FC<UserProps> = ({
   user,
   sendFriendRequest,
   acceptFriendRequest,
+  createConversation,
   isSentRequest,
   isReceivedRequest,
   isFriend,
@@ -94,7 +96,11 @@ const UserItem: React.FC<UserProps> = ({
 
           {isFriend && (
             <Box>
-              <IconButton color="primary" size="small">
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => createConversation(user._id)}
+              >
                 <SendIcon />
               </IconButton>
             </Box>

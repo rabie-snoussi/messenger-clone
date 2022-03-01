@@ -19,11 +19,11 @@ export const createConversationHandler = async (
     const userId = get(req, 'user._id');
     const participant = get(req, 'body.participant');
 
-    const existingConversation = await findConversation({
+    const existingConversation = await findConversationAndPopulate({
       $and: [{ participants: userId }, { participants: participant }],
     });
 
-    if (existingConversation) return res.sendStatus(403);
+    if (existingConversation) return res.send(existingConversation);
 
     const conversation = await createConversation({
       participants: [participant, userId],

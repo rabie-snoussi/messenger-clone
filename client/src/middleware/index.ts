@@ -12,6 +12,7 @@ import {
 import {
   handleGetConversations,
   handleGetConversation,
+  handleCreateConversation,
 } from './conversation.middleware';
 import {
   handleAcceptFriendRequest,
@@ -39,6 +40,8 @@ export function* watcherSaga() {
   yield takeLatest(ACTIONS.GET_CONVERSATIONS, handleGetConversations);
 
   yield takeLatest(ACTIONS.GET_CONVERSATION, handleGetConversation);
+
+  yield takeLatest(ACTIONS.CREATE_CONVERSATION, handleCreateConversation);
 
   yield takeLatest(ACTIONS.GET_SENT_REQUESTS, handleGetSentRequests);
 

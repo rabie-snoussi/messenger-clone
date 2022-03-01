@@ -8,6 +8,7 @@ import {
   sendFriendRequest as sendFriendRequestAction,
   acceptFriendRequest as acceptFriendRequestAction,
 } from 'actions/request.action';
+import { createConversation as createConversationAction } from 'actions/conversation.action';
 import UserItem from './UserItem';
 
 interface UsersProps {
@@ -15,6 +16,7 @@ interface UsersProps {
   user: User;
   sendFriendRequest: Function;
   acceptFriendRequest: Function;
+  createConversation: Function;
 }
 
 const Users: React.FC<UsersProps> = ({
@@ -22,6 +24,7 @@ const Users: React.FC<UsersProps> = ({
   user,
   sendFriendRequest,
   acceptFriendRequest,
+  createConversation,
 }) => {
   const filteredUsers = users.filter(({ _id }) => _id !== user._id);
 
@@ -42,6 +45,7 @@ const Users: React.FC<UsersProps> = ({
           user={item}
           sendFriendRequest={sendFriendRequest}
           acceptFriendRequest={acceptFriendRequest}
+          createConversation={createConversation}
           isSentRequest={isSentRequest(item._id)}
           isReceivedRequest={isReceivedRequest(item._id)}
           isFriend={isFriend(item._id)}
@@ -61,6 +65,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
     dispatch(sendFriendRequestAction({ userId })),
   acceptFriendRequest: (userId: string) =>
     dispatch(acceptFriendRequestAction({ userId })),
+  createConversation: (participant: string) =>
+    dispatch(createConversationAction({ participant })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

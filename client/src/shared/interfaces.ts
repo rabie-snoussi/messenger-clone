@@ -50,6 +50,10 @@ export interface Conversation {
   updatedAt: string;
 }
 
+export interface CreateConversation {
+  participant: string;
+}
+
 export interface FriendRequest {
   userId: string;
 }

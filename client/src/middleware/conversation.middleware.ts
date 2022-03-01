@@ -7,11 +7,19 @@ import { setConversations, setConversation } from 'actions/conversation.action';
 import {
   fetchConversations,
   fetchConversation,
+  createConversation,
 } from 'services/conversation.service';
 
 interface GetConversation {
   type: string;
   payload: string;
+}
+
+interface CreateConversation {
+  type: string;
+  payload: {
+    participant: string;
+  };
 }
 
 export function* handleGetConversations() {
@@ -32,6 +40,20 @@ export function* handleGetConversation({ payload }: GetConversation) {
   try {
     const response: ReturnType<typeof fetchConversation> = yield call(
       fetchConversation,
+      payload,
+    );
+
+    const conversation = get(response, 'data');
+    yield put(setConversation(conversation));
+  } catch (e: any) {
+    toast.error(e.message);
+  }
+}
+
+export function* handleCreateConversation({ payload }: CreateConversation) {
+  try {
+    const response: ReturnType<typeof createConversation> = yield call(
+      createConversation,
       payload,
     );
 
