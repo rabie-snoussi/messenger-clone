@@ -16,6 +16,7 @@ import {
 } from './conversation.middleware';
 import {
   handleAcceptFriendRequest,
+  handleDeleteFriendRequest,
   handleGetReceivedRequests,
   handleGetSentRequests,
   handleSendFriendRequest,
@@ -50,6 +51,8 @@ export function* watcherSaga() {
   yield takeLatest(ACTIONS.SEND_FRIEND_REQUEST, handleSendFriendRequest);
 
   yield takeLatest(ACTIONS.ACCEPT_FRIEND_REQUEST, handleAcceptFriendRequest);
+
+  yield takeLatest(ACTIONS.DELETE_FRIEND_REQUEST, handleDeleteFriendRequest);
 
   yield takeLatest(ACTIONS.GET_FRIENDS, handleGetFriends);
 }

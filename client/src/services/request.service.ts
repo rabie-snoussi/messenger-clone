@@ -11,7 +11,7 @@ export const fetchSentRequests = () => {
 };
 
 export const fetchReceivedRequests = () => {
-  const response = axios.get(`${API}/api/requests/received`, {
+  const response = axios.get(`${API}/requests/received`, {
     withCredentials: true,
   });
 
@@ -28,6 +28,14 @@ export const sendFriendRequest = (payload: FriendRequest) => {
 
 export const acceptFriendRequest = ({ userId }: FriendRequest) => {
   const response = axios.patch(`${API}/requests/accept/${userId}`, null, {
+    withCredentials: true,
+  });
+
+  return response;
+};
+
+export const deleteFriendRequest = ({ userId }: FriendRequest) => {
+  const response = axios.delete(`${API}/requests/received/${userId}`, {
     withCredentials: true,
   });
 

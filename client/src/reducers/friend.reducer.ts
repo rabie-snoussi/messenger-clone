@@ -10,6 +10,8 @@ export const friends = (state = [], action: FriendsAction) => {
   switch (action.type) {
     case ACTIONS.SET_FRIENDS:
       return action.payload;
+    case ACTIONS.ADD_FRIEND:
+      return [...state, ...action.payload];
     default:
       return state;
   }

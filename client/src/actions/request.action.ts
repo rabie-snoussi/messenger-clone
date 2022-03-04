@@ -28,3 +28,18 @@ export const acceptFriendRequest = (payload: FriendRequest) => ({
   type: ACTIONS.ACCEPT_FRIEND_REQUEST,
   payload,
 });
+
+export const deleteFriendRequest = (payload: FriendRequest) => ({
+  type: ACTIONS.DELETE_FRIEND_REQUEST,
+  payload,
+});
+
+export const removeReceivedRequest = (payload: [User]) => ({
+  type: ACTIONS.REMOVE_RECEIVED_REQUEST,
+  payload,
+});
+
+export const addFriend = (payload: [User]) => ({
+  type: ACTIONS.ADD_FRIEND,
+  payload,
+});

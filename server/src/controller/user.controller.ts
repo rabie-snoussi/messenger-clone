@@ -222,7 +222,10 @@ export const deleteReceivedRequestHandler = async (
       },
     );
 
-    return res.send(omit(updatedUser, 'password'));
+    return res.send({
+      user: omit(updatedUser, 'password'),
+      deleted: omit(sender, 'password'),
+    });
   } catch (e: any) {
     log.error(e);
     return res.status(409).send(e.message);
@@ -303,7 +306,10 @@ export const acceptRequestHandler = async (req: Request, res: Response) => {
       { new: true },
     );
 
-    return res.send(omit(updatedUser, 'password'));
+    return res.send({
+      user: omit(updatedUser, 'password'),
+      accepted: omit(sender, 'password'),
+    });
   } catch (e: any) {
     log.error(e);
     return res.status(409).send(e.message);

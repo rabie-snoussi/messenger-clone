@@ -7,6 +7,7 @@ import { User } from 'shared/interfaces';
 import {
   sendFriendRequest as sendFriendRequestAction,
   acceptFriendRequest as acceptFriendRequestAction,
+  deleteFriendRequest as deleteFriendRequestAction,
 } from 'actions/request.action';
 import { createConversation as createConversationAction } from 'actions/conversation.action';
 import UserItem from './UserItem';
@@ -16,6 +17,7 @@ interface UsersProps {
   user: User;
   sendFriendRequest: Function;
   acceptFriendRequest: Function;
+  deleteFriendRequest: Function;
   createConversation: Function;
 }
 
@@ -24,6 +26,7 @@ const Users: React.FC<UsersProps> = ({
   user,
   sendFriendRequest,
   acceptFriendRequest,
+  deleteFriendRequest,
   createConversation,
 }) => {
   const filteredUsers = users.filter(({ _id }) => _id !== user._id);
@@ -45,6 +48,7 @@ const Users: React.FC<UsersProps> = ({
           user={item}
           sendFriendRequest={sendFriendRequest}
           acceptFriendRequest={acceptFriendRequest}
+          deleteFriendRequest={deleteFriendRequest}
           createConversation={createConversation}
           isSentRequest={isSentRequest(item._id)}
           isReceivedRequest={isReceivedRequest(item._id)}
@@ -65,6 +69,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
     dispatch(sendFriendRequestAction({ userId })),
   acceptFriendRequest: (userId: string) =>
     dispatch(acceptFriendRequestAction({ userId })),
+  deleteFriendRequest: (userId: string) =>
+    dispatch(deleteFriendRequestAction({ userId })),
   createConversation: (participant: string) =>
     dispatch(createConversationAction({ participant })),
 });

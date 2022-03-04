@@ -4,9 +4,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { User } from 'shared/interfaces';
 import locale from 'shared/locale.json';
@@ -15,6 +17,7 @@ interface UserProps {
   user: User;
   sendFriendRequest: Function;
   acceptFriendRequest: Function;
+  deleteFriendRequest: Function;
   createConversation: Function;
   isSentRequest: boolean;
   isReceivedRequest: boolean;
@@ -25,6 +28,7 @@ const UserItem: React.FC<UserProps> = ({
   user,
   sendFriendRequest,
   acceptFriendRequest,
+  deleteFriendRequest,
   createConversation,
   isSentRequest,
   isReceivedRequest,
@@ -84,14 +88,20 @@ const UserItem: React.FC<UserProps> = ({
           )}
 
           {isReceivedRequest && (
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ fontSize: '10px' }}
-              onClick={() => acceptFriendRequest(user._id)}
-            >
-              {locale.accept}
-            </Button>
+            <Box display="flex">
+              <DoneIcon
+                fontSize="small"
+                color="primary"
+                onClick={() => acceptFriendRequest(user._id)}
+                sx={{ cursor: 'pointer' }}
+              />
+              <CloseIcon
+                fontSize="small"
+                color="error"
+                onClick={() => deleteFriendRequest(user._id)}
+                sx={{ cursor: 'pointer' }}
+              />
+            </Box>
           )}
 
           {isFriend && (

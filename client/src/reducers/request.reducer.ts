@@ -15,10 +15,12 @@ export const sentRequests = (state = [], action: RequestsAction) => {
   }
 };
 
-export const receivedRequests = (state = [], action: RequestsAction) => {
+export const receivedRequests = (state: User[] = [], action: RequestsAction) => {
   switch (action.type) {
     case ACTIONS.SET_RECEIVED_REQUESTS:
       return action.payload;
+    case ACTIONS.REMOVE_RECEIVED_REQUEST:
+      return state.filter((user) => user._id !== action.payload[0]._id);
     default:
       return state;
   }
