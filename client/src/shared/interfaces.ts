@@ -57,3 +57,8 @@ export interface CreateConversation {
 export interface FriendRequest {
   userId: string;
 }
+
+export interface SendMessage {
+  conversationId: string;
+  message: string;
+}

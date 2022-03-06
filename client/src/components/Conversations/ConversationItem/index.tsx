@@ -48,14 +48,23 @@ const ConversationItem: React.FC<ConversationProps> = ({
       <Box sx={{ p: 1 }}>
         <Avatar src="https://chennaicorporation.gov.in/gcc/images/no-profile-pic-icon-24.jpg" />
       </Box>
-      <Box>
+      <Box width="100%">
         <Typography variant="body1" component="div">
           {participantFullname(
             filterParticipants(conversation.participants)[0],
           )}
         </Typography>
 
-        <Typography variant="caption" component="div">
+        <Typography
+          variant="caption"
+          component="div"
+          width="calc(100% - 70px)"
+          sx={{
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {!isEmpty(conversation.messages) ? (
             <>
               {`${

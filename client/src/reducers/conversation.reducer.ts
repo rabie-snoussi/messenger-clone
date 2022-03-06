@@ -1,5 +1,5 @@
 import { ACTIONS } from 'shared/constants';
-import { Conversation } from 'shared/interfaces';
+import { Conversation, Message } from 'shared/interfaces';
 
 interface ConversationsAction {
   type: string;
@@ -8,7 +8,7 @@ interface ConversationsAction {
 
 interface ConversationAction {
   type: string;
-  payload: Conversation;
+  payload: { conversation?: Conversation; message?: Message };
 }
 
 export const conversations = (state = [], action: ConversationsAction) => {
@@ -23,7 +23,13 @@ export const conversations = (state = [], action: ConversationsAction) => {
 export const conversation = (state = {}, action: ConversationAction) => {
   switch (action.type) {
     case ACTIONS.SET_CONVERSATION:
-      return action.payload;
+      return action.payload.conversation;
+    case ACTIONS.ADD_MESSAGE:
+      return {
+        ...state,
+        // @ts-expect-error
+        messages: [...state.messages, action.payload.message],
+      };
     default:
       return state;
   }

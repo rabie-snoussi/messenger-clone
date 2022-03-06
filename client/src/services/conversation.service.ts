@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API } from 'shared/constants';
-import { CreateConversation } from 'shared/interfaces';
+import { CreateConversation, SendMessage } from 'shared/interfaces';
 
 export const fetchConversations = () => {
   const response = axios.get(`${API}/conversations`, {
@@ -22,6 +22,18 @@ export const createConversation = (payload: CreateConversation) => {
   const response = axios.post(`${API}/conversations`, payload, {
     withCredentials: true,
   });
+
+  return response;
+};
+
+export const sendMessage = ({ message, conversationId }: SendMessage) => {
+  const response = axios.post(
+    `${API}/conversations/${conversationId}/send`,
+    { message },
+    {
+      withCredentials: true,
+    },
+  );
 
   return response;
 };

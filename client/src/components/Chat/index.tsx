@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
@@ -9,8 +9,11 @@ import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import Avatar from '@mui/material/Avatar';
 
-import { Conversation, User } from 'shared/interfaces';
-import { getConversation as getConversationAction } from 'actions/conversation.action';
+import { Conversation, User, SendMessage } from 'shared/interfaces';
+import {
+  getConversation as getConversationAction,
+  sendMessage as sendMessageAction,
+} from 'actions/conversation.action';
 import Bubble from './Bubble';
 
 interface ChatProps {
@@ -18,6 +21,7 @@ interface ChatProps {
   getConversation: Function;
   conversation: Conversation;
   user: User;
+  sendMessage: Function;
 }
 
 const Chat: React.FC<ChatProps> = ({
@@ -25,7 +29,14 @@ const Chat: React.FC<ChatProps> = ({
   getConversation,
   conversation,
   user,
+  sendMessage,
 }) => {
+  const [messageString, setMessageString] = useState('');
+
+  const onSend = (value: string) => {
+    sendMessage({ conversationId, message: value });
+  };
+
   useEffect(() => {
     getConversation(conversationId);
   }, []);
@@ -77,6 +88,7 @@ const Chat: React.FC<ChatProps> = ({
         sx={{ margin: '70px 0px 55px 0px' }}
         height="-webkit-fill-available"
         width="-webkit-fill-available"
+        overflow="auto"
       >
         {conversation.messages.map((message, i) => (
           <>
@@ -133,9 +145,17 @@ const Chat: React.FC<ChatProps> = ({
         alignItems="center"
         sx={{ boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)' }}
       >
-        <TextField fullWidth />
+        <TextField
+          fullWidth
+          onChange={(e) => setMessageString(e.target.value)}
+          value={messageString}
+        />
         <Box p={1}>
-          <SendIcon color="primary" sx={{ cursor: 'pointer' }} />
+          <SendIcon
+            color="primary"
+            sx={{ cursor: 'pointer' }}
+            onClick={() => onSend(messageString)}
+          />
         </Box>
       </Box>
     </Box>
@@ -150,6 +170,8 @@ const mapStateToProps = (state: { conversation: Conversation; user: User }) => {
 const mapDispatchToProps = (dispatch: Function) => ({
   getConversation: (conversationId: string) =>
     dispatch(getConversationAction(conversationId)),
+  sendMessage: ({ message, conversationId }: SendMessage) =>
+    dispatch(sendMessageAction({ message, conversationId })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

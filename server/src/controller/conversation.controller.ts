@@ -78,13 +78,15 @@ export const createMessageHandler = async (req: Request, res: Response) => {
     const createdMessage = await createMessage({ user: userId, message });
     const newMessages = [...conversation.messages, createdMessage._id];
 
-    const updatedConversation = await findAndUpdate(
+    await findAndUpdate(
       { _id: conversationId },
       { messages: newMessages },
-      { new: true },
+      {},
     );
 
-    return res.send(updatedConversation);
+    const populatedMessage = await createdMessage.populate('user', '-password').execPopulate();
+
+    return res.send(populatedMessage);
   } catch (e: any) {
     log.error(e);
     return res.status(409).send(e.message);

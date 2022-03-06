@@ -3,12 +3,18 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 
-import { setConversations, setConversation } from 'actions/conversation.action';
+import {
+  setConversations,
+  setConversation,
+  addMessage,
+} from 'actions/conversation.action';
 import {
   fetchConversations,
   fetchConversation,
   createConversation,
+  sendMessage,
 } from 'services/conversation.service';
+import { Conversation, Message } from 'shared/interfaces';
 
 interface GetConversation {
   type: string;
@@ -19,6 +25,14 @@ interface CreateConversation {
   type: string;
   payload: {
     participant: string;
+  };
+}
+
+interface SendMessage {
+  type: string;
+  payload: {
+    message: string;
+    conversationId: string;
   };
 }
 
@@ -43,8 +57,8 @@ export function* handleGetConversation({ payload }: GetConversation) {
       payload,
     );
 
-    const conversation = get(response, 'data');
-    yield put(setConversation(conversation));
+    const conversation: Conversation = get(response, 'data');
+    yield put(setConversation({ conversation }));
   } catch (e: any) {
     toast.error(e.message);
   }
@@ -57,8 +71,22 @@ export function* handleCreateConversation({ payload }: CreateConversation) {
       payload,
     );
 
-    const conversation = get(response, 'data');
-    yield put(setConversation(conversation));
+    const conversation: Conversation = get(response, 'data');
+    yield put(setConversation({ conversation }));
+  } catch (e: any) {
+    toast.error(e.message);
+  }
+}
+
+export function* handleSendMessage({ payload }: SendMessage) {
+  try {
+    const response: ReturnType<typeof sendMessage> = yield call(
+      sendMessage,
+      payload,
+    );
+
+    const message: Message = get(response, 'data');
+    yield put(addMessage({ message }));
   } catch (e: any) {
     toast.error(e.message);
   }
