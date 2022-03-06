@@ -14,12 +14,14 @@ interface ConversationProps {
   conversation: Conversation;
   user: User;
   conversationId: string;
+  setConversation: Function;
 }
 
 const ConversationItem: React.FC<ConversationProps> = ({
   conversation,
   user,
   conversationId,
+  setConversation,
 }) => {
   const history = useHistory();
   const filterParticipants = (participants: User[]) =>
@@ -29,6 +31,7 @@ const ConversationItem: React.FC<ConversationProps> = ({
     `${participants.firstname} ${participants.lastname}`;
 
   const onClick = (id: string) => {
+    setConversation(conversation);
     history.push(`${PATHS.CONVERSATION}/${id}`);
   };
 
