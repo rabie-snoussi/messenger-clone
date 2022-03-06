@@ -35,6 +35,7 @@ const Chat: React.FC<ChatProps> = ({
 
   const onSend = (value: string) => {
     sendMessage({ conversationId, message: value });
+    setMessageString('');
   };
 
   useEffect(() => {
@@ -85,57 +86,66 @@ const Chat: React.FC<ChatProps> = ({
       </Box>
       <Box
         position="absolute"
-        sx={{ margin: '70px 0px 55px 0px' }}
+        sx={{ margin: '70px 0px 55px 0px', padding: '5px 0px' }}
         height="-webkit-fill-available"
         width="-webkit-fill-available"
         overflow="auto"
+        display="flex"
+        flexDirection="column-reverse"
       >
-        {conversation.messages.map((message, i) => (
-          <>
-            {(!conversation.messages[i - 1]?.createdAt ||
-              _30MinDiff({
-                timeRaw: conversation.messages[i - 1]?.createdAt,
-                messageTimeRaw: message.createdAt,
-              })) && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Typography
-                  sx={{ color: '#8a8d91', fontWeight: 'bold' }}
-                  variant="caption"
-                  component="div"
+        {conversation.messages
+          .sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            // @ts-ignore
+            return dateB - dateA;
+          })
+          .map((message, i) => (
+            <Box key={message._id}>
+              {(!conversation.messages[i + 1]?.createdAt ||
+                _30MinDiff({
+                  timeRaw: conversation.messages[i + 1]?.createdAt,
+                  messageTimeRaw: message.createdAt,
+                })) && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
                 >
-                  {moment(message.createdAt).format('D/M/yyyy, hh:mm a')}
-                </Typography>
+                  <Typography
+                    sx={{ color: '#8a8d91', fontWeight: 'bold' }}
+                    variant="caption"
+                    component="div"
+                  >
+                    {moment(message.createdAt).format('D/M/yyyy, hh:mm a')}
+                  </Typography>
+                </Box>
+              )}
+              <Box sx={{ padding: '1px 10px' }}>
+                <Bubble
+                  message={message}
+                  loggedUser={user}
+                  prevMessage={conversation.messages[i + 1]}
+                  nextMessage={conversation.messages[i - 1]}
+                  firstMessage={
+                    !conversation.messages[i + 1]?.createdAt ||
+                    _30MinDiff({
+                      timeRaw: conversation.messages[i + 1]?.createdAt,
+                      messageTimeRaw: message.createdAt,
+                    })
+                  }
+                  lastMessage={
+                    !conversation.messages[i - 1]?.createdAt ||
+                    _30MinDiff({
+                      timeRaw: conversation.messages[i - 1]?.createdAt,
+                      messageTimeRaw: message.createdAt,
+                    })
+                  }
+                />
               </Box>
-            )}
-            <Box sx={{ padding: '1px 10px' }}>
-              <Bubble
-                message={message}
-                loggedUser={user}
-                prevMessage={conversation.messages[i - 1]}
-                nextMessage={conversation.messages[i + 1]}
-                firstMessage={
-                  !conversation.messages[i - 1]?.createdAt ||
-                  _30MinDiff({
-                    timeRaw: conversation.messages[i - 1]?.createdAt,
-                    messageTimeRaw: message.createdAt,
-                  })
-                }
-                lastMessage={
-                  !conversation.messages[i + 1]?.createdAt ||
-                  _30MinDiff({
-                    timeRaw: conversation.messages[i + 1]?.createdAt,
-                    messageTimeRaw: message.createdAt,
-                  })
-                }
-              />
             </Box>
-          </>
-        ))}
+          ))}
       </Box>
       <Box
         position="absolute"
@@ -149,6 +159,9 @@ const Chat: React.FC<ChatProps> = ({
           fullWidth
           onChange={(e) => setMessageString(e.target.value)}
           value={messageString}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') onSend(messageString);
+          }}
         />
         <Box p={1}>
           <SendIcon

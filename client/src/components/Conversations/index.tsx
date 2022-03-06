@@ -42,7 +42,7 @@ const Conversations: React.FC<ConversationsProps> = ({
     >
       {conversations.map((conversation) => (
         <ConversationItem
-          key={user._id}
+          key={conversation._id}
           user={user}
           conversation={conversation}
           conversationId={conversationId}
