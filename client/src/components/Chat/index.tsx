@@ -5,6 +5,9 @@ import moment from 'moment';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import SendIcon from '@mui/icons-material/Send';
+import Avatar from '@mui/material/Avatar';
 
 import { Conversation, User } from 'shared/interfaces';
 import { getConversation as getConversationAction } from 'actions/conversation.action';
@@ -52,13 +55,29 @@ const Chat: React.FC<ChatProps> = ({
   };
 
   return (
-    <>
+    <Box position="relative" height="100%">
       <Box
-        sx={{ padding: '20px', boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)' }}
+        sx={{
+          padding: '15px 20px',
+          boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)',
+          width: '-webkit-fill-available',
+        }}
+        position="absolute"
+        top="0"
+        display="flex"
+        alignItems="center"
       >
-        {participantFullname(participant)}
+        <Box>
+          <Avatar src="https://chennaicorporation.gov.in/gcc/images/no-profile-pic-icon-24.jpg" />
+        </Box>
+        <Box padding="0 10px">{participantFullname(participant)}</Box>
       </Box>
-      <Box>
+      <Box
+        position="absolute"
+        sx={{ margin: '70px 0px 55px 0px' }}
+        height="-webkit-fill-available"
+        width="-webkit-fill-available"
+      >
         {conversation.messages.map((message, i) => (
           <>
             {(!conversation.messages[i - 1]?.createdAt ||
@@ -106,7 +125,20 @@ const Chat: React.FC<ChatProps> = ({
           </>
         ))}
       </Box>
-    </>
+      <Box
+        position="absolute"
+        bottom="0"
+        width="100%"
+        display="flex"
+        alignItems="center"
+        sx={{ boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)' }}
+      >
+        <TextField fullWidth />
+        <Box p={1}>
+          <SendIcon color="primary" sx={{ cursor: 'pointer' }} />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
