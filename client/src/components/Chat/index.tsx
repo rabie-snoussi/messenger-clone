@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import orderBy from 'lodash/orderBy';
 import moment from 'moment';
 
 import Box from '@mui/material/Box';
@@ -58,6 +59,10 @@ const Chat: React.FC<ChatProps> = ({
     getConversation(conversationId);
     socket.io?.on(conversationId, (message) => addMessage(message));
     socket.io?.on(`${conversationId}/typing`, (users) => setTypingUsers(users));
+
+    return () => {
+      socket.io?.off(conversationId);
+    };
   }, []);
 
   useEffect(() => {
@@ -91,6 +96,8 @@ const Chat: React.FC<ChatProps> = ({
     );
   };
 
+  const reversedMessages = orderBy(conversation.messages, 'createdAt', 'desc');
+
   return (
     <Box position="relative" height="100%">
       <Box
@@ -118,59 +125,52 @@ const Chat: React.FC<ChatProps> = ({
         display="flex"
         flexDirection="column-reverse"
       >
-        {conversation.messages
-          .sort((a, b) => {
-            const dateA = new Date(a.createdAt);
-            const dateB = new Date(b.createdAt);
-            // @ts-ignore
-            return dateB - dateA;
-          })
-          .map((message, i) => (
-            <Box key={message._id}>
-              {(!conversation.messages[i + 1]?.createdAt ||
-                _30MinDiff({
-                  timeRaw: conversation.messages[i + 1]?.createdAt,
-                  messageTimeRaw: message.createdAt,
-                })) && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
+        {reversedMessages.map((message, i) => (
+          <Box key={message._id}>
+            {(!reversedMessages[i + 1]?.createdAt ||
+              _30MinDiff({
+                timeRaw: reversedMessages[i + 1]?.createdAt,
+                messageTimeRaw: message.createdAt,
+              })) && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  sx={{ color: '#8a8d91', fontWeight: 'bold' }}
+                  variant="caption"
+                  component="div"
                 >
-                  <Typography
-                    sx={{ color: '#8a8d91', fontWeight: 'bold' }}
-                    variant="caption"
-                    component="div"
-                  >
-                    {moment(message.createdAt).format('D/M/yyyy, hh:mm a')}
-                  </Typography>
-                </Box>
-              )}
-              <Box sx={{ padding: '1px 10px' }}>
-                <Bubble
-                  message={message}
-                  loggedUser={user}
-                  prevMessage={conversation.messages[i + 1]}
-                  nextMessage={conversation.messages[i - 1]}
-                  firstMessage={
-                    !conversation.messages[i + 1]?.createdAt ||
-                    _30MinDiff({
-                      timeRaw: conversation.messages[i + 1]?.createdAt,
-                      messageTimeRaw: message.createdAt,
-                    })
-                  }
-                  lastMessage={
-                    !conversation.messages[i - 1]?.createdAt ||
-                    _30MinDiff({
-                      timeRaw: conversation.messages[i - 1]?.createdAt,
-                      messageTimeRaw: message.createdAt,
-                    })
-                  }
-                />
+                  {moment(message.createdAt).format('D/M/yyyy, hh:mm a')}
+                </Typography>
               </Box>
+            )}
+            <Box sx={{ padding: '1px 10px' }}>
+              <Bubble
+                message={message}
+                loggedUser={user}
+                prevMessage={reversedMessages[i + 1]}
+                nextMessage={reversedMessages[i - 1]}
+                firstMessage={
+                  !reversedMessages[i + 1]?.createdAt ||
+                  _30MinDiff({
+                    timeRaw: reversedMessages[i + 1]?.createdAt,
+                    messageTimeRaw: message.createdAt,
+                  })
+                }
+                lastMessage={
+                  !reversedMessages[i - 1]?.createdAt ||
+                  _30MinDiff({
+                    timeRaw: reversedMessages[i - 1]?.createdAt,
+                    messageTimeRaw: message.createdAt,
+                  })
+                }
+              />
             </Box>
-          ))}
+          </Box>
+        ))}
       </Box>
 
       <Box

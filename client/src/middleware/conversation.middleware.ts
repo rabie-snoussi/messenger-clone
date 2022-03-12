@@ -39,8 +39,7 @@ export function* handleGetConversations() {
     );
 
     const conversations = get(response, 'data');
-    if (isEmpty(conversations)) yield put(setConversations(null));
-    else yield put(setConversations(conversations));
+    if (!isEmpty(conversations)) yield put(setConversations(conversations));
   } catch (e: any) {
     toast.error(e.message);
   }
