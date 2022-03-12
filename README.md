@@ -6,7 +6,7 @@ The purpose of this project is to be more or less a clone of Messenger App using
 
 #### Starting the project
 
-_Before starting the project make sure you have MongoDB v4+ installed !_
+_Before starting the project make sure you have MongoDB v4+ installed !_  
 
 Then you type the following command in both the server and client folders
 
@@ -17,11 +17,11 @@ npm start
 
 #### Preview
 
-[![Sign up](http://i.imgur.com/1e1K6en.gif 'Sign up')](http://i.imgur.com/1e1K6en.gif 'Sign up')
 **_Sign up / Log in_**
+[![Sign up](http://i.imgur.com/1e1K6en.gif 'Sign up')](http://i.imgur.com/1e1K6en.gif 'Sign up')  
 
-[![RealTime Chat](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')
 **_RealTime Chat_**
+[![RealTime Chat](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')  
 
-[![Friend requests](http://i.imgur.com/REoZQmv.png 'Friend requests')](http://i.imgur.com/REoZQmv.png 'Friend requests')
 **_Friend requests_**
+[![Friend requests](http://i.imgur.com/REoZQmv.png 'Friend requests')](http://i.imgur.com/REoZQmv.png 'Friend requests')  
