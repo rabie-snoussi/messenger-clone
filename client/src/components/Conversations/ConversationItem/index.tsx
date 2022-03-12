@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { useHistory } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import FaceIcon from '@mui/icons-material/Face';
 
 import { Conversation, User } from 'shared/interfaces';
 import { PATHS } from 'shared/constants';
+import socket from 'shared/socket';
 import locale from 'shared/locale.json';
 
 interface ConversationProps {
@@ -24,6 +25,11 @@ const ConversationItem: React.FC<ConversationProps> = ({
   setConversation,
 }) => {
   const history = useHistory();
+  const [typingUsers, setTypingUsers] = useState<User[] | []>([]);
+
+  const filteredTypingUsers = (): User[] =>
+    typingUsers.filter((item) => item._id !== user._id);
+
   const filterParticipants = (participants: User[]) =>
     participants.filter((participant) => participant._id !== user._id);
 
@@ -34,6 +40,16 @@ const ConversationItem: React.FC<ConversationProps> = ({
     setConversation(conversation);
     history.push(`${PATHS.CONVERSATION}/${id}`);
   };
+
+  useEffect(() => {
+    socket.io?.on(`${conversation._id}/typing`, (users) =>
+      setTypingUsers(users),
+    );
+
+    return () => {
+      socket.io?.off(`${conversation._id}/typing`);
+    };
+  }, []);
 
   return (
     <Box
@@ -69,7 +85,11 @@ const ConversationItem: React.FC<ConversationProps> = ({
             textOverflow: 'ellipsis',
           }}
         >
-          {!isEmpty(conversation.messages) ? (
+          {!isEmpty(filteredTypingUsers()) ? (
+            `${String(
+              ...filteredTypingUsers().map((item) => item.firstname),
+            )} ${locale.typing}...`
+          ) : !isEmpty(conversation.messages) ? (
             <>
               {`${
                 conversation.messages[conversation.messages.length - 1].user

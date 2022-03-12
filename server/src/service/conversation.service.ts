@@ -50,8 +50,13 @@ export const findConversationsAndPopulate = async (
     .populate({
       path: 'messages',
       model: 'Message',
-      populate: { path: 'user', model: 'User', select: '-password -requests -friends -email' },
-    });
+      populate: {
+        path: 'user',
+        model: 'User',
+        select: '-password -requests -friends -email',
+      },
+    })
+    .sort({ updatedAt: 'desc' });
 
 export const findAndUpdate = async (
   query: FilterQuery<ConversationDocument>,

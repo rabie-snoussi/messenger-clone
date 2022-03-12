@@ -4,11 +4,14 @@ import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
 import Box from '@mui/material/Box';
 
+import socket from 'shared/socket';
 import { Conversation, User } from 'shared/interfaces';
 import {
   getConversations as getConversationsAction,
   setConversation as setConversationAction,
+  setConversations as setConversationActions,
 } from 'actions/conversation.action';
+
 import ConversationItem from './ConversationItem';
 
 interface ConversationsProps {
@@ -17,6 +20,7 @@ interface ConversationsProps {
   user: User;
   conversationId: string;
   setConversation: Function;
+  setConversations: Function;
 }
 
 const Conversations: React.FC<ConversationsProps> = ({
@@ -25,9 +29,17 @@ const Conversations: React.FC<ConversationsProps> = ({
   user,
   conversationId,
   setConversation,
+  setConversations,
 }) => {
   useEffect(() => {
     getConversations();
+    socket.io?.on(`${user._id}/conversations`, (items) =>
+      setConversations(items),
+    );
+
+    return () => {
+      socket.io?.off(`${user._id}/conversations`);
+    };
   }, []);
 
   if (isNull(conversations)) return <></>;
@@ -64,6 +76,8 @@ const mapDispatchToProps = (dispatch: Function) => ({
   getConversations: () => dispatch(getConversationsAction()),
   setConversation: (conversation: Conversation) =>
     dispatch(setConversationAction({ conversation })),
+  setConversations: (conversations: Conversation[]) =>
+    dispatch(setConversationActions(conversations)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversations);

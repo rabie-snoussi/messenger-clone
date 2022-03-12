@@ -42,7 +42,7 @@ const Home: React.FC<HomeProps> = ({
           borderLeft: '1px solid #cfcfcf',
         }}
       >
-        {conversationId && <Chat conversationId={conversationId} />}
+        {conversationId && <Chat key={conversationId} conversationId={conversationId} />}
       </Grid>
     </Grid>
   );

@@ -79,15 +79,21 @@ export const createMessageHandler = async (req: Request, res: Response) => {
     const createdMessage = await createMessage({ user: userId, message });
     const newMessages = [...conversation.messages, createdMessage._id];
 
-    await findAndUpdate(
-      { _id: conversationId },
-      { messages: newMessages },
-      {},
-    );
+    await findAndUpdate({ _id: conversationId }, { messages: newMessages }, {});
 
-    const populatedMessage = await createdMessage.populate('user', '-password').execPopulate();
+    const populatedMessage = await createdMessage
+      .populate('user', '-password')
+      .execPopulate();
 
     socket.io?.emit(conversationId, populatedMessage);
+
+    conversation?.participants.map(async (participant) => {
+      const conversations = await findConversationsAndPopulate({
+        participants: participant._id,
+      });
+
+      socket.io?.emit(`${participant._id}/conversations`, conversations);
+    });
 
     return res.send(populatedMessage);
   } catch (e: any) {

@@ -21,13 +21,17 @@ const PrivateRoutes = ({
 }: PrivateRoutesProps) => {
   useEffect(() => {
     fetchUser();
+
+    socket.connect();
+
+    return () => {
+      socket.io?.disconnect();
+    };
   }, []);
 
   if (user === null) history.push(PATHS.SIGNIN);
 
   if (isEmpty(user)) return <div>Loading...</div>;
-
-  socket.connect();
 
   return <>{children}</>;
 };

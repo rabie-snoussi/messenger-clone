@@ -30,7 +30,7 @@ socket.authValidation();
 
 socket.io?.on('connection', (sockt) => {
   sockt.on('typing', (data) => {
-    socket.io?.emit(`${data.conversationId}_typing`, data.users);
+    socket.io?.emit(`${data.conversationId}/typing`, data.users);
   });
 });
 
