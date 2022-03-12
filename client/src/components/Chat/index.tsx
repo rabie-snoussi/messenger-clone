@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
-import Avatar from '@mui/material/Avatar';
+import FaceIcon from '@mui/icons-material/Face';
 
 import socket from 'shared/socket';
 import { Conversation, User, SendMessage, Message } from 'shared/interfaces';
@@ -95,7 +95,7 @@ const Chat: React.FC<ChatProps> = ({
     <Box position="relative" height="100%">
       <Box
         sx={{
-          padding: '15px 20px',
+          padding: '5px 20px',
           boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)',
           width: '-webkit-fill-available',
         }}
@@ -105,7 +105,7 @@ const Chat: React.FC<ChatProps> = ({
         alignItems="center"
       >
         <Box>
-          <Avatar src="https://chennaicorporation.gov.in/gcc/images/no-profile-pic-icon-24.jpg" />
+          <FaceIcon sx={{ height: '55px', width: '55px' }} />
         </Box>
         <Box padding="0 10px">{participantFullname(participant)}</Box>
       </Box>

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
+import FaceIcon from '@mui/icons-material/Face';
 
 import { Conversation, User } from 'shared/interfaces';
 import { PATHS } from 'shared/constants';
@@ -49,8 +49,9 @@ const ConversationItem: React.FC<ConversationProps> = ({
       onClick={() => onClick(conversation._id)}
     >
       <Box sx={{ p: 1 }}>
-        <Avatar src="https://chennaicorporation.gov.in/gcc/images/no-profile-pic-icon-24.jpg" />
+        <FaceIcon sx={{ height: '50px', width: '50px' }} />
       </Box>
+
       <Box width="100%">
         <Typography variant="body1" component="div">
           {participantFullname(

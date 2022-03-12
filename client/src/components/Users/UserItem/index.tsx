@@ -2,7 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
+import FaceIcon from '@mui/icons-material/Face';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
@@ -46,7 +46,7 @@ const UserItem: React.FC<UserProps> = ({
       }}
     >
       <Box sx={{ p: 1 }}>
-        <Avatar src="https://chennaicorporation.gov.in/gcc/images/no-profile-pic-icon-24.jpg" />
+        <FaceIcon sx={{ height: '50px', width: '50px' }} />
       </Box>
 
       <Box
