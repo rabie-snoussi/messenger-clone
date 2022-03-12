@@ -101,7 +101,7 @@ const ConversationItem: React.FC<ConversationProps> = ({
               }`}
             </>
           ) : (
-            locale.sayHello
+            locale.sayHi
           )}
         </Typography>
       </Box>

@@ -22,8 +22,6 @@ const PrivateRoutes = ({
   useEffect(() => {
     fetchUser();
 
-    socket.connect();
-
     return () => {
       socket.io?.disconnect();
     };
@@ -32,6 +30,8 @@ const PrivateRoutes = ({
   if (user === null) history.push(PATHS.SIGNIN);
 
   if (isEmpty(user)) return <div>Loading...</div>;
+
+  if (socket.io?.disconnected) socket.connect();
 
   return <>{children}</>;
 };
