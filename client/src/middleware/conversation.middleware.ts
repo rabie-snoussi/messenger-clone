@@ -3,18 +3,14 @@ import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import { toast } from 'react-toastify';
 
-import {
-  setConversations,
-  setConversation,
-  addMessage,
-} from 'actions/conversation.action';
+import { setConversations, setConversation } from 'actions/conversation.action';
 import {
   fetchConversations,
   fetchConversation,
   createConversation,
   sendMessage,
 } from 'services/conversation.service';
-import { Conversation, Message } from 'shared/interfaces';
+import { Conversation } from 'shared/interfaces';
 
 interface GetConversation {
   type: string;
@@ -80,13 +76,7 @@ export function* handleCreateConversation({ payload }: CreateConversation) {
 
 export function* handleSendMessage({ payload }: SendMessage) {
   try {
-    const response: ReturnType<typeof sendMessage> = yield call(
-      sendMessage,
-      payload,
-    );
-
-    const message: Message = get(response, 'data');
-    yield put(addMessage({ message }));
+    yield call(sendMessage, payload);
   } catch (e: any) {
     toast.error(e.message);
   }

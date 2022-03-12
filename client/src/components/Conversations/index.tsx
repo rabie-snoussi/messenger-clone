@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import isNull from 'lodash/isNull';
-
+import socket from 'shared/socket';
 import Box from '@mui/material/Box';
 
-import { Conversation, User } from 'shared/interfaces';
+import { Conversation, Message, User } from 'shared/interfaces';
 import {
+  addMessage as addMessageAction,
   getConversations as getConversationsAction,
   setConversation as setConversationAction,
 } from 'actions/conversation.action';
@@ -18,6 +19,7 @@ interface ConversationsProps {
   user: User;
   conversationId: string;
   setConversation: Function;
+  addMessage: Function;
 }
 
 const Conversations: React.FC<ConversationsProps> = ({
@@ -26,9 +28,11 @@ const Conversations: React.FC<ConversationsProps> = ({
   user,
   conversationId,
   setConversation,
+  addMessage,
 }) => {
   useEffect(() => {
     getConversations();
+    socket.io?.on(conversationId, (message) => addMessage(message));
   }, []);
 
   if (isNull(conversations)) return <></>;
@@ -65,6 +69,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
   getConversations: () => dispatch(getConversationsAction()),
   setConversation: (conversation: Conversation) =>
     dispatch(setConversationAction({ conversation })),
+  addMessage: (message: Message) => dispatch(addMessageAction({ message })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversations);

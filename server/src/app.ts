@@ -1,4 +1,5 @@
 import express from 'express';
+import { createServer } from 'http';
 import config from 'config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -7,6 +8,7 @@ import dbConnect from './db/connect';
 import routes from './routes';
 import log from './logger';
 import { deserializeUser } from './middleware';
+import socket from './socket';
 
 const port = config.get('port') as number;
 const host = config.get('host') as string;
@@ -19,9 +21,14 @@ app.use(deserializeUser);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+routes(app);
 
-app.listen(port, host, () => {
+const server = createServer(app);
+socket.setup(server);
+
+socket.authValidation();
+
+server.listen(port, host, () => {
   log.info(`Server listening at http://${host}:${port}`);
   dbConnect();
-  routes(app);
 });

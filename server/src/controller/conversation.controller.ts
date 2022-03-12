@@ -10,6 +10,7 @@ import {
 } from '../service/conversation.service';
 import log from '../logger';
 import { createMessage } from '../service/message.service';
+import socket from '../socket';
 
 export const createConversationHandler = async (
   req: Request,
@@ -85,6 +86,8 @@ export const createMessageHandler = async (req: Request, res: Response) => {
     );
 
     const populatedMessage = await createdMessage.populate('user', '-password').execPopulate();
+
+    socket.io?.emit(conversationId, populatedMessage);
 
     return res.send(populatedMessage);
   } catch (e: any) {

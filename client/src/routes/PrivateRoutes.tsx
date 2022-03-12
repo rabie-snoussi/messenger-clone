@@ -5,6 +5,7 @@ import { PATHS } from 'shared/constants';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { getUser } from 'actions/user.action';
 import { User } from 'shared/interfaces';
+import socket from 'shared/socket';
 
 interface PrivateRoutesProps extends RouteComponentProps {
   children: ReactChild | ReactChild[];
@@ -25,6 +26,8 @@ const PrivateRoutes = ({
   if (user === null) history.push(PATHS.SIGNIN);
 
   if (isEmpty(user)) return <div>Loading...</div>;
+
+  socket.connect();
 
   return <>{children}</>;
 };
