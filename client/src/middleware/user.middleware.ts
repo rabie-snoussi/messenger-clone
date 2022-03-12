@@ -12,6 +12,7 @@ import {
 } from 'services/user.service';
 import { Credentials, UserCreation, UserUpdate, User } from 'shared/interfaces';
 import { toast } from 'react-toastify';
+import { resetConversation } from 'actions/conversation.action';
 
 interface SignIn {
   type: string;
@@ -71,8 +72,14 @@ export function* handleSignIn({ payload }: SignIn) {
 
 export function* handleSignOut() {
   try {
-    yield call(signOut);
-    yield put(setUser(null));
+    const response: ReturnType<typeof signOut> = yield call(signOut);
+
+    const statusCode = get(response, 'status');
+
+    if (statusCode === 200) {
+      yield put(setUser(null));
+      yield put(resetConversation());
+    }
   } catch (e: any) {
     toast.error(e.message);
   }

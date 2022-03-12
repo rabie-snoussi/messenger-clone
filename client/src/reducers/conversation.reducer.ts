@@ -30,6 +30,8 @@ export const conversation = (state = {}, action: ConversationAction) => {
         // @ts-expect-error
         messages: [...state.messages, action.payload.message],
       };
+    case ACTIONS.RESET_CONVERSATION:
+      return {};
     default:
       return state;
   }
