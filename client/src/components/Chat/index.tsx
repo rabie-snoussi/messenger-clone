@@ -57,7 +57,7 @@ const Chat: React.FC<ChatProps> = ({
   useEffect(() => {
     getConversation(conversationId);
     socket.io?.on(conversationId, (message) => addMessage(message));
-    socket.io?.on(`${conversationId}_typing`, (users) => setTypingUsers(users));
+    socket.io?.on(`${conversationId}/typing`, (users) => setTypingUsers(users));
   }, []);
 
   useEffect(() => {
