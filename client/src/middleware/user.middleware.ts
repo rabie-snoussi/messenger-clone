@@ -35,9 +35,7 @@ interface DeleteUser {
 
 export function* handleGetUser() {
   try {
-    const response: ReturnType<typeof fetchUser> = yield call(
-      fetchUser,
-    );
+    const response: ReturnType<typeof fetchUser> = yield call(fetchUser);
 
     const user = get(response, 'data');
     yield put(setUser(user));
@@ -49,9 +47,7 @@ export function* handleGetUser() {
 
 export function* handleGetUsers() {
   try {
-    const response: ReturnType<typeof fetchUsers> = yield call(
-      fetchUsers,
-    );
+    const response: ReturnType<typeof fetchUsers> = yield call(fetchUsers);
 
     const users = get(response, 'data');
     yield put(setUsers(users));
@@ -63,10 +59,7 @@ export function* handleGetUsers() {
 
 export function* handleSignIn({ payload }: SignIn) {
   try {
-    const response: ReturnType<typeof signIn> = yield call(
-      signIn,
-      payload,
-    );
+    const response: ReturnType<typeof signIn> = yield call(signIn, payload);
 
     const user = get(response, 'data');
     yield put(setUser(user));
@@ -87,10 +80,7 @@ export function* handleSignOut() {
 
 export function* handleSignUp({ payload }: SignUp) {
   try {
-    const response: ReturnType<typeof signUp> = yield call(
-      signUp,
-      payload,
-    );
+    const response: ReturnType<typeof signUp> = yield call(signUp, payload);
 
     const user = get(response, 'data');
     yield put(setUser(user));
@@ -116,9 +106,14 @@ export function* handleUpdateUser({ payload }: UpdateUser) {
 
 export function* handleDeleteUser({ payload }: DeleteUser) {
   try {
-    yield call(deleteUser, payload);
+    const response: ReturnType<typeof deleteUser> = yield call(
+      deleteUser,
+      payload,
+    );
 
-    yield put(setUser(null));
+    const statusCode = get(response, 'status');
+
+    if (statusCode === 200) yield put(setUser(null));
   } catch (e: any) {
     toast.error(e.message);
   }

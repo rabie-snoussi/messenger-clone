@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -8,6 +9,7 @@ import SearchIcon from '@mui/icons-material/SearchRounded';
 import ConversationsIcon from '@mui/icons-material/QuestionAnswerRounded';
 import RequestsIcon from '@mui/icons-material/AnnouncementRounded';
 import LogoutIcon from '@mui/icons-material/LogoutRounded';
+import ProfileIcon from '@mui/icons-material/AccountCircleRounded';
 import Tooltip from '@mui/material/Tooltip';
 
 import { Conversations, Users } from 'components';
@@ -19,6 +21,7 @@ import { getFriends as getFriendsAction } from 'actions/friend.action';
 import { getReceivedRequests as getReceivedRequestsAction } from 'actions/request.action';
 import locale from 'shared/locale.json';
 import { User } from 'shared/interfaces';
+import { PATHS } from 'shared/constants';
 
 interface TabsProps {
   conversationId: string;
@@ -54,6 +57,7 @@ export const Tabs: React.FC<TabsProps> = ({
   receivedRequests,
   signOut,
 }) => {
+  const history = useHistory();
   const [selected, setSelected] = useState<
     'USERS' | 'CONVERSATIONS' | 'FRIENDS' | 'REQUESTS'
   >(TABS.CONVERSATIONS);
@@ -87,6 +91,10 @@ export const Tabs: React.FC<TabsProps> = ({
     setSelected(TABS.FRIENDS);
   };
 
+  const onProfile = () => {
+    history.push(PATHS.PROFILE);
+  };
+
   const onRequests = () => {
     getReceivedRequests();
     setSelected(TABS.REQUESTS);
@@ -95,15 +103,6 @@ export const Tabs: React.FC<TabsProps> = ({
   return (
     <Box>
       <Box display="flex" justifyContent="space-around">
-        <Tooltip title={locale.conversations} arrow>
-          <IconButton
-            color={selected === TABS.CONVERSATIONS ? 'primary' : 'default'}
-            onClick={() => setSelected(TABS.CONVERSATIONS)}
-          >
-            <ConversationsIcon />
-          </IconButton>
-        </Tooltip>
-
         <Tooltip title={locale.users} arrow>
           <IconButton
             color={selected === TABS.USERS ? 'primary' : 'default'}
@@ -122,12 +121,27 @@ export const Tabs: React.FC<TabsProps> = ({
           </IconButton>
         </Tooltip>
 
+        <Tooltip title={locale.conversations} arrow>
+          <IconButton
+            color={selected === TABS.CONVERSATIONS ? 'primary' : 'default'}
+            onClick={() => setSelected(TABS.CONVERSATIONS)}
+          >
+            <ConversationsIcon />
+          </IconButton>
+        </Tooltip>
+
         <Tooltip title={locale.requests} arrow>
           <IconButton
             color={selected === TABS.REQUESTS ? 'primary' : 'default'}
             onClick={() => onRequests()}
           >
             <RequestsIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={locale.profile} arrow>
+          <IconButton color="default" onClick={() => onProfile()}>
+            <ProfileIcon />
           </IconButton>
         </Tooltip>
 

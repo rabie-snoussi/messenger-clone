@@ -28,5 +28,7 @@
   "friend": "Friend",
   "friends": "Friends",
   "sayHello": "Say hello 👋",
-  "requests": "Requests"
+  "requests": "Requests",
+  "deleteAccount": "Delete account",
+  "goBack": "Go back"
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
+import { useHistory } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 
 import { Conversation, User } from 'shared/interfaces';
-import { useHistory } from 'react-router-dom';
 import { PATHS } from 'shared/constants';
 import locale from 'shared/locale.json';
 
