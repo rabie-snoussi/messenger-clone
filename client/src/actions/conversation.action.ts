@@ -43,3 +43,7 @@ export const addMessage = (payload: { message: Message }) => ({
   type: ACTIONS.ADD_MESSAGE,
   payload,
 });
+
+export const resetConversations = () => ({
+  type: ACTIONS.RESET_CONVERSATIONS,
+});

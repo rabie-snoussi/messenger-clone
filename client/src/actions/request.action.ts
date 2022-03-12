@@ -43,3 +43,7 @@ export const addFriend = (payload: [User]) => ({
   type: ACTIONS.ADD_FRIEND,
   payload,
 });
+
+export const resetReceivedRequests = () => ({
+  type: ACTIONS.RESET_RECEIVED_REQUESTS,
+});

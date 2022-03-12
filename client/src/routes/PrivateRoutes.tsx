@@ -31,7 +31,7 @@ const PrivateRoutes = ({
 
   if (isEmpty(user)) return <div>Loading...</div>;
 
-  if (socket.io?.disconnected) socket.connect();
+  socket.connect();
 
   return <>{children}</>;
 };

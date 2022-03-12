@@ -9,3 +9,7 @@ export const setFriends = (payload: User[] | null) => ({
   type: ACTIONS.SET_FRIENDS,
   payload,
 });
+
+export const resetFriends = () => ({
+  type: ACTIONS.RESET_FRIENDS,
+});

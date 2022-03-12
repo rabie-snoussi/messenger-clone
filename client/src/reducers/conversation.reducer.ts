@@ -13,6 +13,8 @@ interface ConversationAction {
 
 export const conversations = (state = [], action: ConversationsAction) => {
   switch (action.type) {
+    case ACTIONS.RESET_CONVERSATIONS:
+      return [];
     case ACTIONS.SET_CONVERSATIONS:
       return action.payload;
     default:

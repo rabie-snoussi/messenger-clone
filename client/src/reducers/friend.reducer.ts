@@ -8,6 +8,8 @@ interface FriendsAction {
 
 export const friends = (state = [], action: FriendsAction) => {
   switch (action.type) {
+    case ACTIONS.RESET_FRIENDS:
+      return [];
     case ACTIONS.SET_FRIENDS:
       return action.payload;
     case ACTIONS.ADD_FRIEND:
