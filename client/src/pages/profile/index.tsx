@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import AccountCircleIcon from '@mui/icons-material/AccountCircleRounded';
+import FaceIcon from '@mui/icons-material/Face';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Tooltip from '@mui/material/Tooltip';
@@ -65,10 +65,7 @@ const Profile: React.FC<Props> = ({ editUser, user, deleteUser }) => {
                 p: 2,
               }}
             >
-              <AccountCircleIcon
-                color="disabled"
-                sx={{ width: '100px', height: '100px' }}
-              />
+              <FaceIcon sx={{ width: '100px', height: '100px' }} />
             </Box>
           </Box>
 
