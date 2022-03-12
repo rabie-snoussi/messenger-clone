@@ -9,11 +9,15 @@ import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import Avatar from '@mui/material/Avatar';
 
-import { Conversation, User, SendMessage } from 'shared/interfaces';
+import socket from 'shared/socket';
+import { Conversation, User, SendMessage, Message } from 'shared/interfaces';
 import {
   getConversation as getConversationAction,
   sendMessage as sendMessageAction,
+  addMessage as addMessageAction,
 } from 'actions/conversation.action';
+import locale from 'shared/locale.json';
+
 import Bubble from './Bubble';
 
 interface ChatProps {
@@ -22,6 +26,7 @@ interface ChatProps {
   conversation: Conversation;
   user: User;
   sendMessage: Function;
+  addMessage: Function;
 }
 
 const Chat: React.FC<ChatProps> = ({
@@ -30,17 +35,37 @@ const Chat: React.FC<ChatProps> = ({
   conversation,
   user,
   sendMessage,
+  addMessage,
 }) => {
   const [messageString, setMessageString] = useState('');
+  const [typingUsers, setTypingUsers] = useState<User[] | []>([]);
+
+  const filteredTypingUsers = (): User[] =>
+    typingUsers.filter((item) => item._id !== user._id);
 
   const onSend = (value: string) => {
     sendMessage({ conversationId, message: value });
     setMessageString('');
   };
 
+  const typingUsersArray = () => {
+    filteredTypingUsers();
+    if (messageString) return [...filteredTypingUsers(), user];
+    return filteredTypingUsers();
+  };
+
   useEffect(() => {
     getConversation(conversationId);
+    socket.io?.on(conversationId, (message) => addMessage(message));
+    socket.io?.on(`${conversationId}_typing`, (users) => setTypingUsers(users));
   }, []);
+
+  useEffect(() => {
+    socket.io?.emit('typing', {
+      conversationId,
+      users: typingUsersArray(),
+    });
+  }, [messageString]);
 
   if (isEmpty(conversation)) return <div>Loading...</div>;
 
@@ -86,7 +111,7 @@ const Chat: React.FC<ChatProps> = ({
       </Box>
       <Box
         position="absolute"
-        sx={{ margin: '70px 0px 55px 0px', padding: '5px 0px' }}
+        sx={{ margin: '70px 0px 55px 0px', padding: '20px 0px' }}
         height="-webkit-fill-available"
         width="-webkit-fill-available"
         overflow="auto"
@@ -147,28 +172,40 @@ const Chat: React.FC<ChatProps> = ({
             </Box>
           ))}
       </Box>
+
       <Box
         position="absolute"
         bottom="0"
         width="100%"
-        display="flex"
-        alignItems="center"
-        sx={{ boxShadow: '2px 0px 4px rgba(0, 0, 0, 0.2)' }}
+        sx={{ background: 'white' }}
       >
-        <TextField
-          fullWidth
-          onChange={(e) => setMessageString(e.target.value)}
-          value={messageString}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') onSend(messageString);
-          }}
-        />
-        <Box p={1}>
-          <SendIcon
-            color="primary"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => onSend(messageString)}
+        {!isEmpty(filteredTypingUsers()) && (
+          <Typography
+            variant="caption"
+            component="div"
+            sx={{ padding: '0 10px' }}
+          >
+            {`${String(
+              ...filteredTypingUsers().map((item) => item.firstname),
+            )} ${locale.typing}...`}
+          </Typography>
+        )}
+        <Box width="100%" display="flex" alignItems="center">
+          <TextField
+            fullWidth
+            onChange={(e) => setMessageString(e.target.value)}
+            value={messageString}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') onSend(messageString);
+            }}
           />
+          <Box p={1}>
+            <SendIcon
+              color="primary"
+              sx={{ cursor: 'pointer' }}
+              onClick={() => onSend(messageString)}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -185,6 +222,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
     dispatch(getConversationAction(conversationId)),
   sendMessage: ({ message, conversationId }: SendMessage) =>
     dispatch(sendMessageAction({ message, conversationId })),
+  addMessage: (message: Message) => dispatch(addMessageAction({ message })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

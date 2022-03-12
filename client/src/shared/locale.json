@@ -30,5 +30,6 @@
   "sayHello": "Say hello 👋",
   "requests": "Requests",
   "deleteAccount": "Delete account",
-  "goBack": "Go back"
+  "goBack": "Go back",
+  "typing": "Typing"
 }

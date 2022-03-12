@@ -10,7 +10,7 @@ export const PATHS = {
 
 export const API = process.env.REACT_APP_API;
 
-export const SOCKET_ENDPOINT = process.env.REACT_APP_SOCKET_ENDPOINT as string;
+export const SERVER_ENDPOINT = process.env.REACT_APP_SERVER_ENDPOINT as string;
 
 export const ACTIONS = {
   GET_USER: 'GET_USER',

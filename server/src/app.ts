@@ -28,6 +28,12 @@ socket.setup(server);
 
 socket.authValidation();
 
+socket.io?.on('connection', (sockt) => {
+  sockt.on('typing', (data) => {
+    socket.io?.emit(`${data.conversationId}_typing`, data.users);
+  });
+});
+
 server.listen(port, host, () => {
   log.info(`Server listening at http://${host}:${port}`);
   dbConnect();

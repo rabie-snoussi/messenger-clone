@@ -1,6 +1,6 @@
 import { io, Socket as SocketClass } from 'socket.io-client';
 
-import { SOCKET_ENDPOINT } from './constants';
+import { SERVER_ENDPOINT } from './constants';
 
 class Socket {
   io: SocketClass | null;
@@ -10,7 +10,7 @@ class Socket {
   }
 
   connect() {
-    this.io = io(SOCKET_ENDPOINT, {
+    this.io = io(SERVER_ENDPOINT, {
       withCredentials: true,
     });
   }
