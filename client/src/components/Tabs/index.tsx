@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import FriendsIcon from '@mui/icons-material/PeopleRounded';
+import SearchIcon from '@mui/icons-material/SearchRounded';
+import ConversationsIcon from '@mui/icons-material/QuestionAnswerRounded';
+import RequestsIcon from '@mui/icons-material/AnnouncementRounded';
+import Tooltip from '@mui/material/Tooltip';
 
 import { Conversations, Users } from 'components';
 import { getUsers as getUsersAction } from 'actions/user.action';
@@ -84,18 +88,42 @@ export const Tabs: React.FC<TabsProps> = ({
 
   return (
     <Box>
-      <Box>
-        <Button onClick={() => setSelected(TABS.CONVERSATIONS)}>
-          {locale.conversations}
-        </Button>
-        <Button onClick={() => onUsers()}>{locale.users}</Button>
-        <Button onClick={() => onFriends()}>{locale.friends}</Button>
-        <Button onClick={() => onRequests()}>{locale.requests}</Button>
-      </Box>
-      <Box>
-        <Typography variant="body1" component="div">
-          {tabs[selected].title}
-        </Typography>
+      <Box display="flex" justifyContent="space-around">
+        <Tooltip title={locale.conversations} arrow>
+          <IconButton
+            color={selected === TABS.CONVERSATIONS ? 'primary' : 'default'}
+            onClick={() => setSelected(TABS.CONVERSATIONS)}
+          >
+            <ConversationsIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={locale.users} arrow>
+          <IconButton
+            color={selected === TABS.USERS ? 'primary' : 'default'}
+            onClick={() => onUsers()}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={locale.friends} arrow>
+          <IconButton
+            color={selected === TABS.FRIENDS ? 'primary' : 'default'}
+            onClick={() => onFriends()}
+          >
+            <FriendsIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title={locale.requests} arrow>
+          <IconButton
+            color={selected === TABS.REQUESTS ? 'primary' : 'default'}
+            onClick={() => onRequests()}
+          >
+            <RequestsIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box>{tabs[selected].component}</Box>
     </Box>

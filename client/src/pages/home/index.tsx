@@ -30,12 +30,13 @@ const Home: React.FC<HomeProps> = ({
   }, [conversation]);
   return (
     <Grid container sx={{ height: '100%' }}>
-      <Grid item xs={3}>
+      <Grid item xs={3} xl={2}>
         <Tabs conversationId={conversationId} />
       </Grid>
       <Grid
         item
         xs={9}
+        xl={10}
         sx={{
           borderRight: '1px solid #cfcfcf',
           borderLeft: '1px solid #cfcfcf',
