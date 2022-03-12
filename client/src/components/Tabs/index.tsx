@@ -7,10 +7,14 @@ import FriendsIcon from '@mui/icons-material/PeopleRounded';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import ConversationsIcon from '@mui/icons-material/QuestionAnswerRounded';
 import RequestsIcon from '@mui/icons-material/AnnouncementRounded';
+import LogoutIcon from '@mui/icons-material/LogoutRounded';
 import Tooltip from '@mui/material/Tooltip';
 
 import { Conversations, Users } from 'components';
-import { getUsers as getUsersAction } from 'actions/user.action';
+import {
+  getUsers as getUsersAction,
+  signOut as signOutAction,
+} from 'actions/user.action';
 import { getFriends as getFriendsAction } from 'actions/friend.action';
 import { getReceivedRequests as getReceivedRequestsAction } from 'actions/request.action';
 import locale from 'shared/locale.json';
@@ -24,6 +28,7 @@ interface TabsProps {
   getFriends: Function;
   receivedRequests: User[];
   getReceivedRequests: Function;
+  signOut: Function;
 }
 
 interface ITABS {
@@ -47,6 +52,7 @@ export const Tabs: React.FC<TabsProps> = ({
   friends,
   getReceivedRequests,
   receivedRequests,
+  signOut,
 }) => {
   const [selected, setSelected] = useState<
     'USERS' | 'CONVERSATIONS' | 'FRIENDS' | 'REQUESTS'
@@ -124,6 +130,12 @@ export const Tabs: React.FC<TabsProps> = ({
             <RequestsIcon />
           </IconButton>
         </Tooltip>
+
+        <Tooltip title={locale.signOut} arrow>
+          <IconButton color="default" onClick={() => signOut()}>
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
       </Box>
       <Box>{tabs[selected].component}</Box>
     </Box>
@@ -143,5 +155,6 @@ const mapDispatchToProps = (dispatch: Function) => ({
   getUsers: () => dispatch(getUsersAction()),
   getFriends: () => dispatch(getFriendsAction()),
   getReceivedRequests: () => dispatch(getReceivedRequestsAction()),
+  signOut: () => dispatch(signOutAction()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
