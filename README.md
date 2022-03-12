@@ -1,7 +1,7 @@
 # Messenger clone
 
 #### Description
-The purpose of this project is to be more or less a clone of Messenger App using **ReactJS / NodeJS ** with **TypeScript** and ** MongoDB** , giving the ability add friends, accept/deny requests, create/edit/delete a profile, chat in real type with WebSockets.
+The purpose of this project is to be more or less a clone of Messenger App using **ReactJS / NodeJS** with **TypeScript** and **MongoDB** , giving the ability add friends, accept/deny requests, create/edit/delete a profile, chat in real type with WebSockets.
 
 #### Starting the project
 *Before starting the project make sure you have MongoDB v4+ installed !*
