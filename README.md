@@ -19,7 +19,6 @@ npm i
 npm start
 ```
 
-#### Preview
 
 **_Sign up / Log in_**  
 
