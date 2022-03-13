@@ -23,7 +23,7 @@ npm start
 **_Sign up / Log in_**  
 
 
-[![Sign up](http://i.imgur.com/1e1K6en.gif 'Sign up')](http://i.imgur.com/1e1K6en.gif 'Sign up')
+[![Sign up](http://i.imgur.com/q2WSjZ9.gif 'Sign up')](http://i.imgur.com/q2WSjZ9.gif 'Sign up')
 
 
 **_RealTime Chat_**  
