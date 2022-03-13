@@ -5,6 +5,8 @@
 The purpose of this project is to be more or less a clone of Messenger App using **ReactJS / NodeJS** with **TypeScript** and **MongoDB**, giving the ability to add friends, accept/deny requests, create/edit/delete a profile, chat in realtime with WebSockets.
 
 Security is implemented in BackEnd side with **JWT**, using **accessToken** / **refreshToken** and storing them in **HTTP only Cookies** blocking malicious intent steal Cookies or using the API without permission.
+
+
 #### Starting the project
 
 _Before starting the project make sure you have MongoDB v4+ installed !_
@@ -30,7 +32,7 @@ npm start
 [![RealTime Chat](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')
 
 
-**_Friend requests_**  
+**_Chat design_**  
 
 
-[![Friend requests](http://i.imgur.com/REoZQmv.png 'Friend requests')](http://i.imgur.com/REoZQmv.png 'Friend requests')
+[![Chat design](http://i.imgur.com/hlLqyrx.png 'Chat design')](http://i.imgur.com/hlLqyrx.png 'Chat design')
