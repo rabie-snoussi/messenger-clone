@@ -35,4 +35,4 @@ npm start
 **_Chat design_**  
 
 
-[![Chat design](http://i.imgur.com/hlLqyrx.png 'Chat design')](http://i.imgur.com/hlLqyrx.png 'Chat design')
+[![Chat design](http://i.imgur.com/1p1STGP.png 'Chat design')](http://i.imgur.com/1p1STGP.png 'Chat design')
