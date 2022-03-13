@@ -1,6 +1,7 @@
 # Messenger clone
 
-#### Description
+[![Chat design](http://i.imgur.com/1p1STGP.png 'Chat design')](http://i.imgur.com/1p1STGP.png 'Chat design')
+
 
 The purpose of this project is to be more or less a clone of Messenger App using **ReactJS / NodeJS** with **TypeScript** and **MongoDB**, giving the ability to add friends, accept/deny requests, create/edit/delete a profile, chat in realtime with WebSockets.
 
@@ -31,8 +32,3 @@ npm start
 
 [![RealTime Chat](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')](http://i.imgur.com/BDjvO9w.gif 'RealTime Chat')
 
-
-**_Chat design_**  
-
-
-[![Chat design](http://i.imgur.com/1p1STGP.png 'Chat design')](http://i.imgur.com/1p1STGP.png 'Chat design')
